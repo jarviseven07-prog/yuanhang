@@ -39,7 +39,36 @@ const processIcons = ['search', 'flow', 'delivery', 'monitor'];
     tagline={hero.tagline}
     primary={{ label: '获取 GEO 诊断', href: 'mailto:demo@example.com' }}
     secondary={{ label: '看案例', href: '/cases' }}
-  />
+  >
+    <div
+      slot="right"
+      class="rounded-[18px] border border-white/25 bg-white/10 p-6 backdrop-blur"
+      role="img"
+      aria-label="示意图：AI 回答窗口，包含状态点、三条色块答语与两个引用条"
+    >
+      <div class="flex items-center gap-1.5" aria-hidden="true">
+        <span class="h-2.5 w-2.5 rounded-full bg-white/50"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-white/35"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-white/20"></span>
+        <span class="ml-3 h-2 w-40 max-w-[50%] rounded-full bg-white/25"></span>
+      </div>
+      <div class="mt-6 space-y-3" aria-hidden="true">
+        <p class="h-3 w-[92%] rounded-full bg-white/70"></p>
+        <p class="h-3 w-[78%] rounded-full bg-white/55"></p>
+        <p class="h-3 w-[64%] rounded-full bg-white/40"></p>
+      </div>
+      <div class="mt-6 grid gap-3" aria-hidden="true">
+        <div class="flex items-center gap-3 rounded-[12px] border border-white/25 bg-white/10 px-4 py-3">
+          <span class="h-6 w-6 shrink-0 rounded-[8px] bg-white/60"></span>
+          <span class="h-2 w-[70%] rounded-full bg-white/40"></span>
+        </div>
+        <div class="flex items-center gap-3 rounded-[12px] border border-white/25 bg-white/10 px-4 py-3">
+          <span class="h-6 w-6 shrink-0 rounded-[8px] bg-white/60"></span>
+          <span class="h-2 w-[56%] rounded-full bg-white/40"></span>
+        </div>
+      </div>
+    </div>
+  </Hero>
 
   <section aria-label="覆盖的主流 AI 平台" class="border-b border-hairline bg-white">
     <div

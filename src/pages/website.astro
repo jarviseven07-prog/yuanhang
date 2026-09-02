@@ -28,7 +28,7 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
     secondary={{ label: '看案例', href: '/cases' }}
     image={{
       src: '/img/hero-website.webp',
-      alt: '晨雾中的集装箱码头与平静水面，左侧为开阔天空',
+      alt: '工作台上的笔记本电脑显示无文字企业站线框，旁边是工业样品与纸箱',
       width: 2400,
       height: 1056,
     }}
@@ -42,8 +42,16 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
     <div class="grid gap-12 md:grid-cols-2 md:items-center">
       <div class="grid gap-4 md:gap-6">
         {
-          plans.items.map((plan) => (
+          plans.items.map((plan, i) => (
             <article class="rounded-[18px] border border-hairline bg-white p-7">
+              <span
+                aria-hidden="true"
+                class={`mb-5 flex h-14 w-14 items-center justify-center rounded-[12px] text-lg font-bold ${
+                  i === 0 ? 'bg-tint text-brand' : 'bg-primary text-white'
+                }`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <p class="text-[13px] font-semibold tracking-[.08em] text-accent">{plan.eyebrow}</p>
               <h3 class="mt-2">{plan.name}</h3>
               <p class="mt-2 text-[15px] text-muted">{plan.desc}</p>
@@ -77,6 +85,16 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
   </Section>
 
   <Section title={serviceGroups.heading} intro={serviceGroups.intro}>
+    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
+      <img
+        src="/img/mid-workshop.webp"
+        alt="机加工工作台特写，黄铜零件与金属屑"
+        width={1792}
+        height={1200}
+        loading="lazy"
+        class="img-tuned aspect-[21/9] w-full object-cover"
+      />
+    </figure>
     <div class="space-y-10">
       {
         serviceGroups.groups.map((group) => (
@@ -99,6 +117,16 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
   </Section>
 
   <Section title={featureModules.heading} intro={featureModules.intro} alt>
+    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
+      <img
+        src="/img/mid-responsive.webp"
+        alt="手机与屏幕设备显示同一套无文字线框"
+        width={1792}
+        height={1200}
+        loading="lazy"
+        class="img-tuned aspect-[21/9] w-full object-cover"
+      />
+    </figure>
     <SpecTable
       columns={featureModules.columns}
       rows={featureModules.rows}
@@ -110,6 +138,16 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
   </Section>
 
   <Section title={guarantee.heading}>
+    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
+      <img
+        src="/img/mid-office.webp"
+        alt="空会议室，白板上只有矩形与箭头草图"
+        width={1792}
+        height={1200}
+        loading="lazy"
+        class="img-tuned aspect-[21/9] w-full object-cover"
+      />
+    </figure>
     <div class="grid gap-4 md:grid-cols-2 md:gap-6">
       {
         guarantee.items.map((item) => (
@@ -146,6 +184,21 @@ const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 
       </div>
     </div>
   </Section>
+
+  <div class="mx-auto max-w-[1200px] px-4 md:px-6">
+    <figure class="overflow-hidden rounded-[18px] border border-hairline">
+      <img
+        src="/img/mid-warehouse.webp"
+        alt="出口仓库内托盘上的无印刷纸箱与货架"
+        width={1792}
+        height={1200}
+        loading="lazy"
+        class="img-tuned aspect-[21/9] w-full object-cover"
+      />
+    </figure>
+  </div>
+
+  <div class="h-14 md:h-24" aria-hidden="true"></div>
 
   <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
 </BaseLayout>

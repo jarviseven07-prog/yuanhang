@@ -19,6 +19,13 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/fonts/noto-serif-sc-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
   </head>
   <body class="flex min-h-screen flex-col">
     <a href="#main" class="skip-link">跳到主要内容</a>

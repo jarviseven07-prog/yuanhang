@@ -27,7 +27,24 @@ const description =
     h1="成功案例"
     tagline="六个虚构行业的演示案例，展示不同服务模块的组合方向。"
     note="以下为演示数据，非真实客户案例。"
-  />
+  >
+    <ul slot="right" class="grid grid-cols-3 gap-3">
+      {
+        cases.map((item) => (
+          <li class="overflow-hidden rounded-[12px] border border-white/25">
+            <img
+              src={item.data.image}
+              alt={`${item.data.industry}行业场景演示图`}
+              width={1616}
+              height={1008}
+              loading="lazy"
+              class="img-tuned aspect-[8/5] w-full object-cover"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </Hero>
 
   <Section>
     <ul class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">

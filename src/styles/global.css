@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("/fonts/noto-serif-sc-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-primary: #0b2342;
   --color-brand: #174ea6;
@@ -35,16 +43,23 @@
     letter-spacing: -0.02em;
   }
 
+  h1,
+  h2 {
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  }
+
   h1 {
-    font-size: clamp(1.875rem, 6vw, 3.25rem);
-    line-height: 1.14;
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.12;
     font-weight: 700;
+    letter-spacing: -0.03em;
   }
 
   h2 {
-    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
     line-height: 1.2;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   h3 {
@@ -218,10 +233,10 @@
   .hero-mask {
     background: linear-gradient(
       90deg,
-      rgba(11, 35, 66, 0.94) 0%,
-      rgba(11, 35, 66, 0.86) 42%,
-      rgba(11, 35, 66, 0.55) 72%,
-      rgba(11, 35, 66, 0.35) 100%
+      rgba(11, 35, 66, 0.62) 0%,
+      rgba(11, 35, 66, 0.48) 45%,
+      rgba(11, 35, 66, 0.32) 75%,
+      rgba(11, 35, 66, 0.22) 100%
     );
   }
 
@@ -328,6 +343,7 @@
   }
 
   .header-scrolled {
+    border-bottom-color: #c3cfe0;
     box-shadow: 0 8px 24px rgba(15, 35, 60, 0.08);
   }
 }

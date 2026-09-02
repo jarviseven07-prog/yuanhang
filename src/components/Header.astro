@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 interface Props {
   currentPath: string;
 }
@@ -30,12 +32,8 @@ const linkClass = (href: string) =>
   <div class="mx-auto max-w-[1200px] px-4 md:px-6">
     <div class="flex items-center justify-between py-2 md:py-0">
       <a href="/website" class="flex items-center gap-2 py-2 md:py-4">
-        <span
-          aria-hidden="true"
-          class="inline-flex h-8 w-8 items-center justify-center rounded-[10px] bg-primary text-sm font-bold text-white"
-          >远</span
-        >
-        <span class="text-xl font-bold text-primary">远航</span>
+        <Logo size={28} color="#0B2342" />
+        <span class="text-xl font-bold tracking-[-0.02em] text-primary">远航</span>
       </a>
 
       <nav aria-label="主导航" class="hidden md:block">

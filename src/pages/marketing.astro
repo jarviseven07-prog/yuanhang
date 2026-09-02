@@ -35,18 +35,18 @@ const eightElementsIcons = [
     secondary={{ label: '看案例', href: '/cases' }}
   />
 
-  <Section title={plans.heading} intro={plans.intro} alt>
+  <div class="relative z-10 mx-auto -mt-[72px] max-w-[1200px] px-4 md:px-6">
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {
         plans.items.map((plan) => (
-          <article class="card-hover rounded-[18px] border border-hairline bg-white p-7">
+          <article class="card-hover rounded-[18px] border border-hairline bg-white p-7 shadow-[0_12px_32px_rgba(15,35,60,0.10)]">
             {plan.tag && (
               <p class="mb-4 inline-block rounded-full border border-accent px-3 py-1 text-xs font-semibold text-accent">
                 {plan.tag}
               </p>
             )}
             <h3>{plan.name}</h3>
-            <p class="mt-4 text-[46px] font-bold leading-none tabular-nums text-brand">
+            <p class="mt-4 text-[52px] font-bold leading-none tabular-nums text-brand">
               {plan.countries.replace(' 个国家', '')}
             </p>
             <p class="mt-2 text-sm text-muted">覆盖国家 · 服务周期 {plan.period}</p>
@@ -54,7 +54,9 @@ const eightElementsIcons = [
         ))
       }
     </div>
-  </Section>
+  </div>
+
+  <Section title={plans.heading} intro={plans.intro} alt></Section>
 
   <Section title={delivery.heading} intro={delivery.intro}>
     <div class="space-y-10">

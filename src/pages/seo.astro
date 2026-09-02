@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
+import Icon from '../components/Icon.astro';
 import CTABand from '../components/CTABand.astro';
 
 const entry = await getEntry('pages', 'seo');
@@ -27,7 +28,20 @@ const processIcons = ['search', 'speed', 'content', 'link', 'monitor', 'flow'];
     tagline={hero.tagline}
     primary={{ label: '获取 SEO 诊断', href: 'mailto:demo@example.com' }}
     secondary={{ label: '看案例', href: '/cases' }}
-  />
+  >
+    <ul slot="right" class="grid grid-cols-2 gap-4">
+      {
+        sellingPoints.items.map((item, i) => (
+          <li class="rounded-[18px] border border-white/25 bg-white/10 p-5 backdrop-blur">
+            <span class="flex h-14 w-14 items-center justify-center rounded-[12px] bg-white text-brand">
+              <Icon name={sellingPointsIcons[i]} size={28} />
+            </span>
+            <h3 class="mt-4 text-white">{item.name}</h3>
+          </li>
+        ))
+      }
+    </ul>
+  </Hero>
 
   <Section title={sellingPoints.heading} alt>
     <FeatureGrid items={sellingPoints.items} columns={2} icons={sellingPointsIcons} />
