@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
@@ -12,59 +13,66 @@ if (!entry || entry.data.page !== 'geo') {
 }
 const data = entry.data;
 const { hero, painPoints, platforms, services, comparison, process, cta } = data;
+
+const platformList = platforms.groups.flatMap((group) => group.items);
+
+const painPointsIcons = ['link', 'ai', 'search', 'globe', 'data', 'flow'];
+const servicesIcons = [
+  'ai',
+  'content',
+  'structure',
+  'search',
+  'globe',
+  'flow',
+  'link',
+  'monitor',
+  'support',
+];
+const processIcons = ['search', 'flow', 'delivery', 'monitor'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <section class="bg-primary">
-    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
-      {hero.eyebrow && <p class="text-sm font-semibold tracking-widest text-slate-300">{hero.eyebrow}</p>}
-      <h1 class="mt-2 text-white">{hero.h1}</h1>
-      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
+  <Hero
+    crumb="GEO 优化"
+    eyebrow={hero.eyebrow}
+    h1={hero.h1}
+    tagline={hero.tagline}
+    primary={{ label: '获取 GEO 诊断', href: 'mailto:demo@example.com' }}
+    secondary={{ label: '看案例', href: '/cases' }}
+  />
+
+  <section aria-label="覆盖的主流 AI 平台" class="border-b border-hairline bg-white">
+    <div
+      class="mx-auto flex min-h-[120px] max-w-[1200px] flex-nowrap items-center gap-3 overflow-x-auto px-4 py-6 md:flex-wrap md:justify-center md:gap-4 md:px-6"
+    >
+      {
+        platformList.map((platform, i) => (
+          <span class="flex h-10 shrink-0 items-center gap-2 rounded-[10px] bg-tint px-4 text-sm font-medium text-primary">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <rect x="8" y="8" width="8" height="8" rx="2" transform={`rotate(${i * 15} 12 12)`} />
+              <circle cx="12" cy="4.5" r="1.2" transform={`rotate(${i * 15} 12 12)`} />
+            </svg>
+            {platform}
+          </span>
+        ))
+      }
     </div>
   </section>
 
   <Section title={painPoints.heading} intro={painPoints.intro} outro={painPoints.outro} alt>
-    <FeatureGrid items={painPoints.items} columns={3} numbered />
+    <FeatureGrid items={painPoints.items} columns={3} numbered icons={painPointsIcons} />
   </Section>
 
-  <Section title={platforms.heading} intro={platforms.intro}>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
-      {
-        platforms.groups.map((group) => (
-          <article class="rounded border border-slate-200 p-6">
-            <h3>
-              {group.name}
-              <span class="ml-2 text-sm font-normal tabular-nums text-slate-500">
-                {group.items.length} 个平台
-              </span>
-            </h3>
-            <ul class="mt-4 flex flex-wrap gap-2">
-              {group.items.map((platform) => (
-                <li class="rounded border border-slate-200 bg-slate-50 px-2 py-1 text-sm text-slate-700">
-                  {platform}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
-    </div>
+  <Section title={services.heading} intro={services.intro}>
+    <FeatureGrid items={services.items} columns={3} numbered icons={servicesIcons} />
   </Section>
 
-  <Section title={services.heading} intro={services.intro} alt>
-    <FeatureGrid items={services.items} columns={3} numbered />
-  </Section>
-
-  <Section
-    title={comparison.heading}
-    intro={comparison.intro}
-    outro={comparison.outro}
-  >
+  <Section title={comparison.heading} intro={comparison.intro} outro={comparison.outro} alt>
     <SpecTable columns={comparison.columns} rows={comparison.rows} />
   </Section>
 
-  <Section title={process.heading} intro={process.intro} alt>
-    <FeatureGrid items={process.items} columns={4} numbered />
+  <Section title={process.heading} intro={process.intro}>
+    <FeatureGrid items={process.items} columns={4} numbered icons={processIcons} />
   </Section>
 
   <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />

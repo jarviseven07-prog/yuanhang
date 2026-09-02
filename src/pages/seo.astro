@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import CTABand from '../components/CTABand.astro';
@@ -11,36 +12,42 @@ if (!entry || entry.data.page !== 'seo') {
 }
 const data = entry.data;
 const { hero, sellingPoints, solution, reporting, process, casesNote, cta } = data;
+
+const sellingPointsIcons = ['globe', 'social', 'data', 'search'];
+const solutionIcons = ['speed', 'content', 'link', 'data'];
+const reportingIcons = ['data', 'monitor', 'flow'];
+const processIcons = ['search', 'speed', 'content', 'link', 'monitor', 'flow'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <section class="bg-primary">
-    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
-      {hero.eyebrow && <p class="text-sm font-semibold tracking-widest text-slate-300">{hero.eyebrow}</p>}
-      <h1 class="mt-2 text-white">{hero.h1}</h1>
-      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
-    </div>
-  </section>
+  <Hero
+    crumb="Google SEO"
+    eyebrow={hero.eyebrow}
+    h1={hero.h1}
+    tagline={hero.tagline}
+    primary={{ label: '获取 SEO 诊断', href: 'mailto:demo@example.com' }}
+    secondary={{ label: '看案例', href: '/cases' }}
+  />
 
   <Section title={sellingPoints.heading} alt>
-    <FeatureGrid items={sellingPoints.items} columns={2} />
+    <FeatureGrid items={sellingPoints.items} columns={2} icons={sellingPointsIcons} />
   </Section>
 
   <Section title={solution.heading} intro={solution.intro}>
-    <FeatureGrid items={solution.items} columns={2} />
+    <FeatureGrid items={solution.items} columns={2} icons={solutionIcons} />
   </Section>
 
-  <Section title={reporting.heading} intro={reporting.intro} alt>
-    <FeatureGrid items={reporting.items} columns={3} numbered />
+  <Section title={reporting.heading} intro={reporting.intro} tone="mint">
+    <FeatureGrid items={reporting.items} columns={3} numbered icons={reportingIcons} />
   </Section>
 
-  <Section title={process.heading} intro={process.intro}>
-    <FeatureGrid items={process.items} columns={3} numbered />
+  <Section title={process.heading} intro={process.intro} tone="mint">
+    <FeatureGrid items={process.items} columns={3} numbered icons={processIcons} />
   </Section>
 
-  <Section title={casesNote.heading} alt>
-    <p class="max-w-[720px] text-slate-700">{casesNote.text}</p>
-    <a href={casesNote.href} class="btn-primary mt-8">
+  <Section title={casesNote.heading}>
+    <p class="max-w-[720px] text-muted">{casesNote.text}</p>
+    <a href={casesNote.href} class="btn-accent mt-8">
       {casesNote.linkLabel}
       <span aria-hidden="true">→</span>
     </a>

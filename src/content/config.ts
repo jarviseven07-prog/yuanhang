@@ -169,7 +169,7 @@ const cases = defineCollection({
     industry: z.string(),
     tags: z.array(z.enum(['网站建设', '全网营销', 'Google SEO', 'GEO 优化'])).min(1).max(2),
     result: z.string(),
-    color: z.string(),
+    image: z.string(),
   }),
 });
 

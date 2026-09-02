@@ -1,0 +1,59 @@
+---
+interface Props {
+  crumb: string;
+  eyebrow?: string;
+  h1: string;
+  tagline: string;
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  note?: string;
+  image?: { src: string; alt: string; width: number; height: number };
+}
+
+const { crumb, eyebrow, h1, tagline, primary, secondary, note, image } = Astro.props;
+---
+
+<section class="hero relative overflow-hidden text-white">
+  {
+    image ? (
+      <>
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          class="img-tuned absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="hero-mask absolute inset-0" aria-hidden="true"></div>
+      </>
+    ) : (
+      <div class="hero-gradient absolute inset-0" aria-hidden="true">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+      </div>
+    )
+  }
+  <div class="relative mx-auto max-w-[1200px] px-4 md:px-6">
+    <div class="flex min-h-[320px] flex-col justify-center py-14 md:min-h-[460px] md:py-16">
+      <nav aria-label="面包屑" class="text-[13px] text-white/65">
+        <a href="/" class="hover:text-white">首页</a>
+        <span aria-hidden="true" class="mx-2">/</span>
+        <span>{crumb}</span>
+      </nav>
+      {eyebrow && <p class="mt-6 text-[13px] uppercase tracking-[.12em] text-white/70">{eyebrow}</p>}
+      <h1 class="mt-4 max-w-[16ch] text-white">{h1}</h1>
+      <p class="mt-6 max-w-[34rem] text-[17px] leading-[1.8] text-white/85">{tagline}</p>
+      {(primary || secondary) && (
+        <p class="mt-8 flex flex-wrap gap-4">
+          {primary && <a href={primary.href} class="btn-accent">{primary.label}</a>}
+          {secondary && <a href={secondary.href} class="btn-ghost">{secondary.label}</a>}
+        </p>
+      )}
+      {note && (
+        <p class="mt-8 inline-block rounded-[10px] border border-white/40 px-4 py-2 text-sm text-white/85">
+          {note}
+        </p>
+      )}
+    </div>
+  </div>
+</section>

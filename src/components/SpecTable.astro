@@ -1,4 +1,6 @@
 ---
+import SpecTableCore from './SpecTableCore.astro';
+
 interface Props {
   columns: string[];
   rows: string[][];
@@ -7,6 +9,7 @@ interface Props {
   limit?: number;
   rowHeaders?: boolean;
   checkCells?: boolean;
+  leftCols?: number;
 }
 
 const {
@@ -17,112 +20,45 @@ const {
   limit,
   rowHeaders = true,
   checkCells = false,
+  leftCols = 1,
 } = Astro.props;
 
 const limited = limit !== undefined && rows.length > limit;
 const mainRows = limited ? rows.slice(0, limit) : rows;
 const restRows = limited ? rows.slice(limit) : [];
 const minWidth = wide ? 'min-w-[760px]' : 'min-w-[560px]';
-
-const cellLabel = (cell: string): string | undefined => {
-  if (!checkCells) return undefined;
-  if (cell === '✓') return '包含';
-  if (cell === '—') return '不包含';
-  return undefined;
-};
 ---
 
-<div class="overflow-x-auto rounded border border-slate-200">
-  <table class={`w-full border-collapse text-left text-sm ${minWidth}`}>
-    <thead class="bg-slate-50">
-      <tr>
-        {
-          columns.map((col) => (
-            <th
-              scope="col"
-              class="border-b border-slate-200 px-4 py-4 font-semibold text-slate-900"
-            >
-              {col}
-            </th>
-          ))
-        }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        mainRows.map((row) => (
-          <tr class="border-b border-slate-200 last:border-b-0">
-            {row.map((cell, ci) =>
-              ci === 0 && rowHeaders ? (
-                <th scope="row" class="px-4 py-4 text-left align-top font-medium text-slate-900">
-                  {cell}
-                </th>
-              ) : (
-                <td class="px-4 py-4 align-top text-slate-700" aria-label={cellLabel(cell)}>
-                  {checkCells && cell === '✓' ? (
-                    <span aria-hidden="true" class="font-semibold text-primary">
-                      ✓
-                    </span>
-                  ) : (
-                    cell
-                  )}
-                </td>
-              )
-            )}
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+<div class="table-wrap">
+  <SpecTableCore
+    columns={columns}
+    rows={mainRows}
+    minWidth={minWidth}
+    rowHeaders={rowHeaders}
+    checkCells={checkCells}
+    leftCols={leftCols}
+  />
+  <p class="mt-2 text-[13px] text-muted md:hidden">← 左右滑动查看 →</p>
 </div>
 
 {
   limited && (
-    <details class="mt-4">
-      <summary class="rounded p-2">
+    <details class="mt-6">
+      <summary class="inline-block rounded-[10px] px-3 py-2">
         展开完整清单（共 {rows.length} 项）
       </summary>
-      <div class="mt-2 overflow-x-auto rounded border border-slate-200">
-        <table class={`w-full border-collapse text-left text-sm ${minWidth}`}>
-          <thead class="bg-slate-50">
-            <tr>
-              {columns.map((col) => (
-                <th
-                  scope="col"
-                  class="border-b border-slate-200 px-4 py-4 font-semibold text-slate-900"
-                >
-                  {col}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {restRows.map((row) => (
-              <tr class="border-b border-slate-200 last:border-b-0">
-                {row.map((cell, ci) =>
-                  ci === 0 && rowHeaders ? (
-                    <th scope="row" class="px-4 py-4 text-left align-top font-medium text-slate-900">
-                      {cell}
-                    </th>
-                  ) : (
-                    <td class="px-4 py-4 align-top text-slate-700" aria-label={cellLabel(cell)}>
-                      {checkCells && cell === '✓' ? (
-                        <span aria-hidden="true" class="font-semibold text-primary">
-                          ✓
-                        </span>
-                      ) : (
-                        cell
-                      )}
-                    </td>
-                  )
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div class="table-wrap mt-4">
+        <SpecTableCore
+          columns={columns}
+          rows={restRows}
+          minWidth={minWidth}
+          rowHeaders={rowHeaders}
+          checkCells={checkCells}
+          leftCols={leftCols}
+        />
       </div>
     </details>
   )
 }
 
-{note && <p class="mt-4 text-sm text-slate-500">{note}</p>}
+{note && <p class="mt-4 text-sm text-muted">{note}</p>}

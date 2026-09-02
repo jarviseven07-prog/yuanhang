@@ -9,14 +9,15 @@ interface Props {
 const { title, desc, buttonLabel, href } = Astro.props;
 ---
 
-<section class="bg-primary">
+<section class="relative overflow-hidden bg-primary">
+  <div class="grid-texture" aria-hidden="true"></div>
   <div
-    class="mx-auto max-w-[1200px] px-4 py-12 md:flex md:items-center md:justify-between md:gap-8 md:px-6 md:py-16"
+    class="relative mx-auto max-w-[1200px] px-4 py-14 md:flex md:items-center md:justify-between md:gap-8 md:px-6 md:py-20"
   >
     <div>
       <h2 class="text-white">{title}</h2>
-      {desc && <p class="mt-4 max-w-[720px] text-slate-200">{desc}</p>}
-      <p class="mt-4 text-sm text-slate-300">演示站：联系方式为占位内容。</p>
+      {desc && <p class="mt-4 max-w-[720px] text-white/80">{desc}</p>}
+      <p class="mt-4 text-sm text-white/60">演示站：联系方式为占位内容。</p>
     </div>
     <a href={href} class="btn-accent mt-8 md:mt-0 md:shrink-0">
       {buttonLabel}

@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
@@ -12,29 +13,43 @@ if (!entry || entry.data.page !== 'marketing') {
 }
 const data = entry.data;
 const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities, cta } = data;
+
+const eightElementsIcons = [
+  'structure',
+  'support',
+  'search',
+  'data',
+  'content',
+  'social',
+  'delivery',
+  'monitor',
+];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <section class="bg-primary">
-    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
-      <h1 class="text-white">{hero.h1}</h1>
-      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
-    </div>
-  </section>
+  <Hero
+    crumb="全网营销"
+    h1={hero.h1}
+    tagline={hero.tagline}
+    primary={{ label: '获取推广方案', href: 'mailto:demo@example.com' }}
+    secondary={{ label: '看案例', href: '/cases' }}
+  />
 
   <Section title={plans.heading} intro={plans.intro} alt>
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {
         plans.items.map((plan) => (
-          <article class="rounded border border-slate-200 bg-white p-6">
+          <article class="card-hover rounded-[18px] border border-hairline bg-white p-7">
             {plan.tag && (
-              <p class="mb-4 inline-block rounded border border-accent px-2 py-1 text-xs font-semibold text-accent">
+              <p class="mb-4 inline-block rounded-full border border-accent px-3 py-1 text-xs font-semibold text-accent">
                 {plan.tag}
               </p>
             )}
             <h3>{plan.name}</h3>
-            <p class="mt-4 text-2xl font-semibold tabular-nums text-primary">{plan.countries}</p>
-            <p class="mt-2 text-sm text-slate-700">服务周期 {plan.period}</p>
+            <p class="mt-4 text-[46px] font-bold leading-none tabular-nums text-brand">
+              {plan.countries.replace(' 个国家', '')}
+            </p>
+            <p class="mt-2 text-sm text-muted">覆盖国家 · 服务周期 {plan.period}</p>
           </article>
         ))
       }
@@ -47,7 +62,7 @@ const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities,
         delivery.tables.map((table) => (
           <div>
             {table.heading && <h3>{table.heading}</h3>}
-            {table.intro && <p class="mt-2 max-w-[720px] text-sm text-slate-700">{table.intro}</p>}
+            {table.intro && <p class="mt-2 max-w-[720px] text-sm text-muted">{table.intro}</p>}
             <div class="mt-4">
               <SpecTable
                 columns={table.columns}
@@ -67,39 +82,37 @@ const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities,
     <div class="grid gap-4 md:grid-cols-2 md:gap-6">
       {
         inquiryStandard.regions.map((region) => (
-          <article class="rounded border border-slate-200 bg-white p-6">
+          <article class="rounded-[18px] border border-hairline bg-white p-7">
             <h3>
               {region.name}
-              <span class="ml-2 text-sm font-normal tabular-nums text-slate-500">
+              <span class="ml-2 text-sm font-normal tabular-nums text-muted">
                 {region.countries.length} 个国家 / 地区
               </span>
             </h3>
             <p class="mt-4 flex flex-wrap gap-2 text-sm">
               {region.countries.map((country) => (
-                <span class="rounded border border-slate-200 bg-slate-50 px-2 py-1 text-slate-700">
-                  {country}
-                </span>
+                <span class="rounded-full bg-tint px-3 py-1 text-primary">{country}</span>
               ))}
             </p>
           </article>
         ))
       }
     </div>
-    <p class="mt-6 text-sm text-slate-500">{inquiryStandard.note}</p>
+    <p class="mt-6 text-sm text-muted">{inquiryStandard.note}</p>
   </Section>
 
   <Section title={eightElements.heading} intro={eightElements.intro}>
-    <FeatureGrid items={eightElements.items} columns={4} numbered />
+    <FeatureGrid items={eightElements.items} columns={4} numbered icons={eightElementsIcons} />
     {
       eightElements.note && (
-        <p class="mt-6 max-w-[720px] text-sm text-slate-700">{eightElements.note}</p>
+        <p class="mt-6 max-w-[720px] text-sm text-muted">{eightElements.note}</p>
       )
     }
     {
       eightElements.notes && (
         <ul class="mt-6 max-w-[720px] space-y-2">
           {eightElements.notes.map((note) => (
-            <li class="text-sm text-slate-500">{note}</li>
+            <li class="text-sm text-muted">{note}</li>
           ))}
         </ul>
       )

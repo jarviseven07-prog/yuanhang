@@ -1,0 +1,77 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  columns: string[];
+  rows: string[][];
+  minWidth: string;
+  rowHeaders: boolean;
+  checkCells: boolean;
+  leftCols: number;
+}
+
+const { columns, rows, minWidth, rowHeaders, checkCells, leftCols } = Astro.props;
+
+const cellLabel = (cell: string): string | undefined => {
+  if (!checkCells) return undefined;
+  if (cell === '✓') return '包含';
+  if (cell === '—') return '不包含';
+  return undefined;
+};
+---
+
+<div class="table-scroll rounded-[18px] border border-hairline bg-white">
+  <table class={`w-full border-collapse text-[15px] ${minWidth}`}>
+    <thead>
+      <tr>
+        {columns.map((col) => (
+          <th scope="col">{col}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => {
+          const merged = rowHeaders && row.length === columns.length - 1;
+          return (
+            <tr>
+              {row.map((cell, ci) => {
+                if (ci === 0 && rowHeaders) {
+                  return <th scope="row">{cell}</th>;
+                }
+                if (merged && ci === row.length - 1) {
+                  return (
+                    <td colspan={2} class="text-muted">
+                      {cell}
+                    </td>
+                  );
+                }
+                const label = cellLabel(cell);
+                if (checkCells && cell === '✓') {
+                  return (
+                    <td aria-label={label}>
+                      <span class="check-dot">
+                        <Icon name="check" size={12} />
+                      </span>
+                    </td>
+                  );
+                }
+                if (checkCells && cell === '—') {
+                  return (
+                    <td aria-label={label}>
+                      <span class="text-muted">—</span>
+                    </td>
+                  );
+                }
+                if ((ci === 0 && !rowHeaders) || ci < leftCols) {
+                  return <td class="td-left">{cell}</td>;
+                }
+                return <td>{cell}</td>;
+              })}
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>

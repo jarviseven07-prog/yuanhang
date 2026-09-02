@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
@@ -13,44 +14,66 @@ if (!entry || entry.data.page !== 'website') {
 const data = entry.data;
 const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarantee, ops, cta } =
   data;
+
+const whyUsIcons = ['structure', 'support', 'flow', 'speed', 'delivery', 'data'];
+const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 'social'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <section class="bg-primary">
-    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
-      <h1 class="text-white">{hero.h1}</h1>
-      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
-    </div>
-  </section>
+  <Hero
+    crumb="网站建设"
+    h1={hero.h1}
+    tagline={hero.tagline}
+    primary={{ label: '获取建站方案', href: 'mailto:demo@example.com' }}
+    secondary={{ label: '看案例', href: '/cases' }}
+    image={{
+      src: '/img/hero-website.webp',
+      alt: '晨雾中的集装箱码头与平静水面，左侧为开阔天空',
+      width: 2400,
+      height: 1056,
+    }}
+  />
 
   <Section title={whyUs.heading} intro={whyUs.intro} alt>
-    <FeatureGrid items={whyUs.items} columns={3} />
+    <FeatureGrid items={whyUs.items} columns={3} icons={whyUsIcons} />
   </Section>
 
   <Section title={plans.heading} intro={plans.intro}>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
-      {
-        plans.items.map((plan) => (
-          <article class="rounded border border-slate-200 p-6 md:p-8">
-            <p class="text-sm font-semibold tracking-widest text-accent">{plan.eyebrow}</p>
-            <h3 class="mt-2">{plan.name}</h3>
-            <p class="mt-2 text-slate-700">{plan.desc}</p>
-            <ul class="mt-6 space-y-4">
-              {plan.points.map((pt) => (
-                <li class="text-sm text-slate-700">
-                  <strong class="mr-2 font-semibold text-slate-900">{pt.name}</strong>
-                  {pt.desc}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
+    <div class="grid gap-12 md:grid-cols-2 md:items-center">
+      <div class="grid gap-4 md:gap-6">
+        {
+          plans.items.map((plan) => (
+            <article class="rounded-[18px] border border-hairline bg-white p-7">
+              <p class="text-[13px] font-semibold tracking-[.08em] text-accent">{plan.eyebrow}</p>
+              <h3 class="mt-2">{plan.name}</h3>
+              <p class="mt-2 text-[15px] text-muted">{plan.desc}</p>
+              <ul class="mt-6 space-y-4">
+                {plan.points.map((pt) => (
+                  <li class="text-sm text-muted">
+                    <strong class="mr-2 font-semibold text-primary">{pt.name}</strong>
+                    {pt.desc}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      <figure class="overflow-hidden rounded-[18px] border border-hairline">
+        <img
+          src="/img/svc-design.webp"
+          alt="俯拍的设计工作台，桌上摆着网站线框草图与色卡"
+          width={1792}
+          height={1200}
+          loading="lazy"
+          class="img-tuned aspect-[3/2] w-full object-cover"
+        />
+      </figure>
     </div>
   </Section>
 
   <Section title={customValue.heading} intro={customValue.intro} alt>
-    <FeatureGrid items={customValue.items} columns={3} numbered />
+    <FeatureGrid items={customValue.items} columns={3} numbered icons={customValueIcons} />
   </Section>
 
   <Section title={serviceGroups.heading} intro={serviceGroups.intro}>
@@ -59,19 +82,20 @@ const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarante
         serviceGroups.groups.map((group) => (
           <div>
             <h3>{group.name}</h3>
-            {group.intro && <p class="mt-2 max-w-[720px] text-sm text-slate-700">{group.intro}</p>}
+            {group.intro && <p class="mt-2 max-w-[720px] text-sm text-muted">{group.intro}</p>}
             <div class="mt-4">
               <SpecTable
                 columns={serviceGroups.columns}
                 rows={group.rows}
                 checkCells
+                leftCols={2}
               />
             </div>
           </div>
         ))
       }
     </div>
-    <p class="mt-6 text-sm text-slate-500">{serviceGroups.note}</p>
+    <p class="mt-6 text-sm text-muted">{serviceGroups.note}</p>
   </Section>
 
   <Section title={featureModules.heading} intro={featureModules.intro} alt>
@@ -81,6 +105,7 @@ const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarante
       limit={12}
       wide
       rowHeaders={false}
+      leftCols={2}
     />
   </Section>
 
@@ -88,14 +113,12 @@ const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarante
     <div class="grid gap-4 md:grid-cols-2 md:gap-6">
       {
         guarantee.items.map((item) => (
-          <article class="rounded border border-slate-200 p-6 md:p-8">
+          <article class="rounded-[18px] border border-hairline bg-white p-7">
             <h3>{item.name}</h3>
             <ul class="mt-4 space-y-2">
               {item.points.map((point) => (
-                <li class="flex gap-2 text-sm text-slate-700">
-                  <span aria-hidden="true" class="text-primary">
-                    ·
-                  </span>
+                <li class="flex gap-2 text-[15px] text-muted">
+                  <span aria-hidden="true" class="text-brand">·</span>
                   <span>{point}</span>
                 </li>
               ))}
@@ -107,8 +130,20 @@ const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarante
   </Section>
 
   <Section title={ops.heading} alt>
-    <div class="max-w-[720px] space-y-4">
-      {ops.body.map((paragraph) => <p class="text-slate-700">{paragraph}</p>)}
+    <div class="grid gap-12 md:grid-cols-2 md:items-center">
+      <figure class="order-1 overflow-hidden rounded-[18px] border border-hairline md:order-2">
+        <img
+          src="/img/svc-data.webp"
+          alt="机房走道，两侧是成排的服务器机柜"
+          width={1792}
+          height={1200}
+          loading="lazy"
+          class="img-tuned aspect-[3/2] w-full object-cover"
+        />
+      </figure>
+      <div class="order-2 max-w-[720px] space-y-4 md:order-1">
+        {ops.body.map((paragraph) => <p class="text-muted">{paragraph}</p>)}
+      </div>
     </div>
   </Section>
 
