@@ -1,0 +1,119 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import SpecTable from '../components/SpecTable.astro';
+import CTABand from '../components/CTABand.astro';
+
+const entry = await getEntry('pages', 'marketing');
+if (!entry || entry.data.page !== 'marketing') {
+  throw new Error('缺少 marketing 页面内容');
+}
+const data = entry.data;
+const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities, cta } = data;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
+      <h1 class="text-white">{hero.h1}</h1>
+      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
+    </div>
+  </section>
+
+  <Section title={plans.heading} intro={plans.intro} alt>
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {
+        plans.items.map((plan) => (
+          <article class="rounded border border-slate-200 bg-white p-6">
+            {plan.tag && (
+              <p class="mb-4 inline-block rounded border border-accent px-2 py-1 text-xs font-semibold text-accent">
+                {plan.tag}
+              </p>
+            )}
+            <h3>{plan.name}</h3>
+            <p class="mt-4 text-2xl font-semibold tabular-nums text-primary">{plan.countries}</p>
+            <p class="mt-2 text-sm text-slate-700">服务周期 {plan.period}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title={delivery.heading} intro={delivery.intro}>
+    <div class="space-y-10">
+      {
+        delivery.tables.map((table) => (
+          <div>
+            {table.heading && <h3>{table.heading}</h3>}
+            {table.intro && <p class="mt-2 max-w-[720px] text-sm text-slate-700">{table.intro}</p>}
+            <div class="mt-4">
+              <SpecTable
+                columns={table.columns}
+                rows={table.rows}
+                wide={table.wide}
+                note={table.note}
+                checkCells
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title={inquiryStandard.heading} intro={inquiryStandard.intro} alt>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+      {
+        inquiryStandard.regions.map((region) => (
+          <article class="rounded border border-slate-200 bg-white p-6">
+            <h3>
+              {region.name}
+              <span class="ml-2 text-sm font-normal tabular-nums text-slate-500">
+                {region.countries.length} 个国家 / 地区
+              </span>
+            </h3>
+            <p class="mt-4 flex flex-wrap gap-2 text-sm">
+              {region.countries.map((country) => (
+                <span class="rounded border border-slate-200 bg-slate-50 px-2 py-1 text-slate-700">
+                  {country}
+                </span>
+              ))}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-sm text-slate-500">{inquiryStandard.note}</p>
+  </Section>
+
+  <Section title={eightElements.heading} intro={eightElements.intro}>
+    <FeatureGrid items={eightElements.items} columns={4} numbered />
+    {
+      eightElements.note && (
+        <p class="mt-6 max-w-[720px] text-sm text-slate-700">{eightElements.note}</p>
+      )
+    }
+    {
+      eightElements.notes && (
+        <ul class="mt-6 max-w-[720px] space-y-2">
+          {eightElements.notes.map((note) => (
+            <li class="text-sm text-slate-500">{note}</li>
+          ))}
+        </ul>
+      )
+    }
+  </Section>
+
+  <Section title={responsibilities.heading} intro={responsibilities.intro} alt>
+    <SpecTable
+      columns={responsibilities.columns}
+      rows={responsibilities.rows}
+      note={responsibilities.note}
+      rowHeaders={false}
+    />
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+</BaseLayout>

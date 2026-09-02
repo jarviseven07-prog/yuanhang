@@ -1,0 +1,161 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navItems = [
+  { href: '/website', label: '网站建设' },
+  { href: '/marketing', label: '全网营销' },
+  { href: '/seo', label: 'Google SEO' },
+  { href: '/geo', label: 'GEO 优化' },
+  { href: '/cases', label: '成功案例' },
+];
+
+const isActive = (href: string) => {
+  const path = currentPath.replace(/\/$/, '') || '/';
+  return path === href;
+};
+
+const linkClass = (href: string) =>
+  `block rounded px-4 py-2 text-sm font-medium ${
+    isActive(href)
+      ? 'bg-slate-50 text-primary'
+      : 'text-slate-700 hover:bg-slate-50 hover:text-primary'
+  }`;
+---
+
+<header class="border-b border-slate-200 bg-white">
+  <div class="mx-auto max-w-[1200px] px-4 md:px-6">
+    <div class="flex items-center justify-between py-2 md:py-0">
+      <a href="/website" class="flex items-center gap-2 py-2 md:py-4">
+        <span
+          aria-hidden="true"
+          class="inline-flex h-8 w-8 items-center justify-center rounded bg-primary text-sm font-bold text-white"
+          >远</span
+        >
+        <span class="text-xl font-bold text-primary">远航</span>
+      </a>
+
+      <nav aria-label="主导航" class="hidden md:block">
+        <ul class="flex items-center gap-2">
+          {
+            navItems.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class={linkClass(item.href)}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="rounded p-2 text-primary hover:bg-slate-50 md:hidden"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        aria-label="打开菜单"
+      >
+        <svg
+          id="icon-closed"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="icon-open"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          class="hidden"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav id="site-menu" aria-label="主导航" class="hidden pb-4 md:hidden">
+      <ul class="flex flex-col gap-2">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={linkClass(item.href)}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const panel = document.getElementById('site-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClosed = document.getElementById('icon-closed');
+
+  if (toggle && panel) {
+    const setOpen = (open: boolean) => {
+      panel.classList.toggle('hidden', !open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+      iconOpen?.classList.toggle('hidden', !open);
+      iconClosed?.classList.toggle('hidden', open);
+      if (open) {
+        const first = panel.querySelector('a');
+        first?.focus();
+      }
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    panel.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) {
+        setOpen(false);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+      }
+    });
+  }
+</script>

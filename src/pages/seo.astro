@@ -1,0 +1,50 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import CTABand from '../components/CTABand.astro';
+
+const entry = await getEntry('pages', 'seo');
+if (!entry || entry.data.page !== 'seo') {
+  throw new Error('缺少 seo 页面内容');
+}
+const data = entry.data;
+const { hero, sellingPoints, solution, reporting, process, casesNote, cta } = data;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
+      {hero.eyebrow && <p class="text-sm font-semibold tracking-widest text-slate-300">{hero.eyebrow}</p>}
+      <h1 class="mt-2 text-white">{hero.h1}</h1>
+      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
+    </div>
+  </section>
+
+  <Section title={sellingPoints.heading} alt>
+    <FeatureGrid items={sellingPoints.items} columns={2} />
+  </Section>
+
+  <Section title={solution.heading} intro={solution.intro}>
+    <FeatureGrid items={solution.items} columns={2} />
+  </Section>
+
+  <Section title={reporting.heading} intro={reporting.intro} alt>
+    <FeatureGrid items={reporting.items} columns={3} numbered />
+  </Section>
+
+  <Section title={process.heading} intro={process.intro}>
+    <FeatureGrid items={process.items} columns={3} numbered />
+  </Section>
+
+  <Section title={casesNote.heading} alt>
+    <p class="max-w-[720px] text-slate-700">{casesNote.text}</p>
+    <a href={casesNote.href} class="btn-primary mt-8">
+      {casesNote.linkLabel}
+      <span aria-hidden="true">→</span>
+    </a>
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+</BaseLayout>

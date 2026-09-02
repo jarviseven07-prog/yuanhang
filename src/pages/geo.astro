@@ -1,0 +1,71 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import SpecTable from '../components/SpecTable.astro';
+import CTABand from '../components/CTABand.astro';
+
+const entry = await getEntry('pages', 'geo');
+if (!entry || entry.data.page !== 'geo') {
+  throw new Error('缺少 geo 页面内容');
+}
+const data = entry.data;
+const { hero, painPoints, platforms, services, comparison, process, cta } = data;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
+      {hero.eyebrow && <p class="text-sm font-semibold tracking-widest text-slate-300">{hero.eyebrow}</p>}
+      <h1 class="mt-2 text-white">{hero.h1}</h1>
+      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
+    </div>
+  </section>
+
+  <Section title={painPoints.heading} intro={painPoints.intro} outro={painPoints.outro} alt>
+    <FeatureGrid items={painPoints.items} columns={3} numbered />
+  </Section>
+
+  <Section title={platforms.heading} intro={platforms.intro}>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+      {
+        platforms.groups.map((group) => (
+          <article class="rounded border border-slate-200 p-6">
+            <h3>
+              {group.name}
+              <span class="ml-2 text-sm font-normal tabular-nums text-slate-500">
+                {group.items.length} 个平台
+              </span>
+            </h3>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {group.items.map((platform) => (
+                <li class="rounded border border-slate-200 bg-slate-50 px-2 py-1 text-sm text-slate-700">
+                  {platform}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title={services.heading} intro={services.intro} alt>
+    <FeatureGrid items={services.items} columns={3} numbered />
+  </Section>
+
+  <Section
+    title={comparison.heading}
+    intro={comparison.intro}
+    outro={comparison.outro}
+  >
+    <SpecTable columns={comparison.columns} rows={comparison.rows} />
+  </Section>
+
+  <Section title={process.heading} intro={process.intro} alt>
+    <FeatureGrid items={process.items} columns={4} numbered />
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+</BaseLayout>

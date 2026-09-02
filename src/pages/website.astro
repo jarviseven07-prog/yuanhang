@@ -1,0 +1,116 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import SpecTable from '../components/SpecTable.astro';
+import CTABand from '../components/CTABand.astro';
+
+const entry = await getEntry('pages', 'website');
+if (!entry || entry.data.page !== 'website') {
+  throw new Error('缺少 website 页面内容');
+}
+const data = entry.data;
+const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarantee, ops, cta } =
+  data;
+---
+
+<BaseLayout title={data.title} description={data.description}>
+  <section class="bg-primary">
+    <div class="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-20">
+      <h1 class="text-white">{hero.h1}</h1>
+      <p class="mt-4 max-w-[720px] text-slate-200 md:text-lg">{hero.tagline}</p>
+    </div>
+  </section>
+
+  <Section title={whyUs.heading} intro={whyUs.intro} alt>
+    <FeatureGrid items={whyUs.items} columns={3} />
+  </Section>
+
+  <Section title={plans.heading} intro={plans.intro}>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+      {
+        plans.items.map((plan) => (
+          <article class="rounded border border-slate-200 p-6 md:p-8">
+            <p class="text-sm font-semibold tracking-widest text-accent">{plan.eyebrow}</p>
+            <h3 class="mt-2">{plan.name}</h3>
+            <p class="mt-2 text-slate-700">{plan.desc}</p>
+            <ul class="mt-6 space-y-4">
+              {plan.points.map((pt) => (
+                <li class="text-sm text-slate-700">
+                  <strong class="mr-2 font-semibold text-slate-900">{pt.name}</strong>
+                  {pt.desc}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title={customValue.heading} intro={customValue.intro} alt>
+    <FeatureGrid items={customValue.items} columns={3} numbered />
+  </Section>
+
+  <Section title={serviceGroups.heading} intro={serviceGroups.intro}>
+    <div class="space-y-10">
+      {
+        serviceGroups.groups.map((group) => (
+          <div>
+            <h3>{group.name}</h3>
+            {group.intro && <p class="mt-2 max-w-[720px] text-sm text-slate-700">{group.intro}</p>}
+            <div class="mt-4">
+              <SpecTable
+                columns={serviceGroups.columns}
+                rows={group.rows}
+                checkCells
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-sm text-slate-500">{serviceGroups.note}</p>
+  </Section>
+
+  <Section title={featureModules.heading} intro={featureModules.intro} alt>
+    <SpecTable
+      columns={featureModules.columns}
+      rows={featureModules.rows}
+      limit={12}
+      wide
+      rowHeaders={false}
+    />
+  </Section>
+
+  <Section title={guarantee.heading}>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+      {
+        guarantee.items.map((item) => (
+          <article class="rounded border border-slate-200 p-6 md:p-8">
+            <h3>{item.name}</h3>
+            <ul class="mt-4 space-y-2">
+              {item.points.map((point) => (
+                <li class="flex gap-2 text-sm text-slate-700">
+                  <span aria-hidden="true" class="text-primary">
+                    ·
+                  </span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title={ops.heading} alt>
+    <div class="max-w-[720px] space-y-4">
+      {ops.body.map((paragraph) => <p class="text-slate-700">{paragraph}</p>)}
+    </div>
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+</BaseLayout>
