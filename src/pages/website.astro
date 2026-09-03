@@ -8,6 +8,7 @@ import SpecTable from '../components/SpecTable.astro';
 import CTABand from '../components/CTABand.astro';
 import ContactPanel from '../components/ContactPanel.astro';
 import Icon from '../components/Icon.astro';
+import { withBase } from '../lib/paths';
 
 const entry = await getEntry('pages', 'website');
 if (!entry || entry.data.page !== 'website') throw new Error('缺少 website 页面内容');
@@ -15,7 +16,7 @@ const data = entry.data;
 const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarantee, ops, cta } = data;
 const cases = (await getCollection('cases')).sort((a, b) => a.id.localeCompare(b.id)).slice(0, 3);
 const whyUsIcons = ['structure', 'support', 'flow', 'speed', 'delivery', 'data'];
-const customImages = ['/img/svc-design.webp', '/img/mid-responsive.webp', '/img/mid-office.webp', '/img/mid-workshop.webp', '/img/svc-data.webp', '/img/mid-warehouse.webp'];
+const customImages = ['/img/svc-design.webp', '/img/mid-responsive.webp', '/img/mid-office.webp', '/img/mid-workshop.webp', '/img/svc-data.webp', '/img/mid-warehouse.webp'].map(withBase);
 const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
   const key = row[2];
   (acc[key] ??= []).push(row);
@@ -89,19 +90,19 @@ const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
   <Section eyebrow="Operations" title={ops.heading}>
     <div class="grid items-center gap-10 lg:grid-cols-2">
       <div><p class="text-muted">{ops.body[0]}</p><div class="mt-8 grid grid-cols-3 gap-3">{['数据可见','动作可追','持续迭代'].map((item, i) => <div class="rounded-[12px] bg-tint p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs text-muted">{item}</span></div>)}</div></div>
-      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src="/img/mid-office.webp" alt="桌面上的网站运营数据分析工作场景" width={1792} height={1200} loading="eager" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
+      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src={withBase('/img/mid-office.webp')} alt="桌面上的网站运营数据分析工作场景" width={1792} height={1200} loading="eager" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
     </div>
   </Section>
 
   <Section eyebrow="Growth services" title="一站式外贸营销推广服务" intro="选择适合业务阶段的推广渠道，用清晰的目标和持续复盘推动增长。" tone="tint" centered>
     <div class="grid gap-5 md:grid-cols-2">
-      {[['Google SEO 优化','通过关键词策略、技术优化与内容建设，提升 Google 自然搜索排名和高意向流量。','/img/svc-data.webp','/seo'],['全域社媒营销','围绕 Facebook、LinkedIn、TikTok 等海外平台建立内容矩阵，持续触达目标买家。','/img/mid-workshop.webp','/marketing']].map((item, i) => <article class="group relative min-h-[310px] overflow-hidden rounded-[20px] bg-primary text-left"><img src={item[2]} alt={`${item[0]}服务场景`} width={1792} height={1200} loading="lazy" class="img-tuned absolute inset-0 h-full w-full object-cover opacity-45 transition duration-500 group-hover:scale-[1.025]" /><div class="photo-overlay absolute inset-0"></div><div class="relative flex min-h-[310px] flex-col justify-end p-7 text-white md:p-9"><p class="text-xs font-bold tracking-[.14em] text-[#8fe0e2]">SERVICE 0{i + 1}</p><h3 class="mt-3 text-2xl text-white">{item[0]}</h3><p class="mt-3 max-w-[520px] text-sm leading-7 text-white/72">{item[1]}</p><a href={item[3]} class="mt-5 inline-flex text-sm font-bold text-white">了解详情 →</a></div></article>)}
+      {[['Google SEO 优化','通过关键词策略、技术优化与内容建设，提升 Google 自然搜索排名和高意向流量。','/img/svc-data.webp','/seo'],['全域社媒营销','围绕 Facebook、LinkedIn、TikTok 等海外平台建立内容矩阵，持续触达目标买家。','/img/mid-workshop.webp','/marketing']].map((item, i) => <article class="group relative min-h-[310px] overflow-hidden rounded-[20px] bg-primary text-left"><img src={withBase(item[2])} alt={`${item[0]}服务场景`} width={1792} height={1200} loading="lazy" class="img-tuned absolute inset-0 h-full w-full object-cover opacity-45 transition duration-500 group-hover:scale-[1.025]" /><div class="photo-overlay absolute inset-0"></div><div class="relative flex min-h-[310px] flex-col justify-end p-7 text-white md:p-9"><p class="text-xs font-bold tracking-[.14em] text-[#8fe0e2]">SERVICE 0{i + 1}</p><h3 class="mt-3 text-2xl text-white">{item[0]}</h3><p class="mt-3 max-w-[520px] text-sm leading-7 text-white/72">{item[1]}</p><a href={withBase(item[3])} class="mt-5 inline-flex text-sm font-bold text-white">了解详情 →</a></div></article>)}
     </div>
   </Section>
 
   <Section eyebrow="Selected work" title="定制化案例" intro="六个虚构行业的 Demo，展示网站与增长服务的组合方式。" tone="cloud" centered>
-    <ul class="grid gap-5 md:grid-cols-3">{cases.map((item) => <li class="card-lift overflow-hidden rounded-[17px] border border-hairline bg-white text-left"><img src={item.data.image} alt={`${item.data.industry}行业案例演示图`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover" /><div class="p-5"><p class="text-xs font-bold text-brand">{item.data.industry} · 演示案例</p><h3 class="mt-2">{item.data.company}</h3><p class="mt-3 text-sm text-muted">{item.data.result}</p></div></li>)}</ul>
-    <a href="/cases" class="btn-primary mt-8">查看全部案例 <span aria-hidden="true">→</span></a>
+    <ul class="grid gap-5 md:grid-cols-3">{cases.map((item) => <li class="card-lift overflow-hidden rounded-[17px] border border-hairline bg-white text-left"><img src={withBase(item.data.image)} alt={`${item.data.industry}行业案例演示图`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover" /><div class="p-5"><p class="text-xs font-bold text-brand">{item.data.industry} · 演示案例</p><h3 class="mt-2">{item.data.company}</h3><p class="mt-3 text-sm text-muted">{item.data.result}</p></div></li>)}</ul>
+    <a href={withBase('/cases')} class="btn-primary mt-8">查看全部案例 <span aria-hidden="true">→</span></a>
   </Section>
 
   <CTABand title={cta.title} desc={cta.desc} buttonLabel="获取建站建议" href="#contact" />

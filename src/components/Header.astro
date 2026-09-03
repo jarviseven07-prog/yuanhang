@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { withBase } from '../lib/paths';
 
 interface Props {
   currentPath: string;
@@ -8,11 +9,11 @@ interface Props {
 const { currentPath } = Astro.props;
 
 const navItems = [
-  { href: '/website', label: '网站建设' },
-  { href: '/marketing', label: '全网营销' },
-  { href: '/seo', label: 'Google SEO' },
-  { href: '/geo', label: 'GEO 优化' },
-  { href: '/cases', label: '成功案例' },
+  { href: withBase('/website'), label: '网站建设' },
+  { href: withBase('/marketing'), label: '全网营销' },
+  { href: withBase('/seo'), label: 'Google SEO' },
+  { href: withBase('/geo'), label: 'GEO 优化' },
+  { href: withBase('/cases'), label: '成功案例' },
 ];
 
 const isActive = (href: string) => {
@@ -29,7 +30,7 @@ const linkClass = (href: string) =>
 <header id="site-header" class="sticky top-0 z-40 border-b border-hairline/80 bg-white/95 backdrop-blur-xl">
   <div class="container-shell">
     <div class="flex min-h-[72px] items-center justify-between">
-      <a href="/website" class="flex items-center gap-2.5 py-2" aria-label="远航跨境首页">
+      <a href={withBase('/website')} class="flex items-center gap-2.5 py-2" aria-label="远航跨境首页">
         <Logo size={31} color="#0B2342" />
         <span class="leading-none">
           <strong class="block text-xl tracking-[-0.04em] text-primary">远航跨境</strong>

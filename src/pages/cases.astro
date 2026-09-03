@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Icon from '../components/Icon.astro';
+import { withBase } from '../lib/paths';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.id.localeCompare(b.id));
 const industryIcon: Record<string, string> = { 工业阀门: 'valve', 户外家具: 'furniture', 汽车配件: 'gear', 建材: 'stack', 医疗器械: 'pulse', 消费电子: 'chip' };
@@ -23,7 +24,7 @@ const description = '远航跨境成功案例页：六个虚构行业的演示�
       <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {cases.map((item, i) => (
           <li class="card-lift group overflow-hidden rounded-[18px] border border-hairline bg-white shadow-[0_12px_30px_rgba(9,36,72,.055)]">
-            <div class="relative overflow-hidden"><img src={item.data.image} alt={`${item.data.industry}行业场景演示图`} width={1616} height={1008} loading={i < 3 ? 'eager' : 'lazy'} class="img-tuned aspect-[8/5] w-full object-cover transition duration-500 group-hover:scale-[1.025]" /><span class="absolute bottom-3 left-4 text-3xl font-bold text-white">{String(i + 1).padStart(2, '0')}</span></div>
+            <div class="relative overflow-hidden"><img src={withBase(item.data.image)} alt={`${item.data.industry}行业场景演示图`} width={1616} height={1008} loading={i < 3 ? 'eager' : 'lazy'} class="img-tuned aspect-[8/5] w-full object-cover transition duration-500 group-hover:scale-[1.025]" /><span class="absolute bottom-3 left-4 text-3xl font-bold text-white">{String(i + 1).padStart(2, '0')}</span></div>
             <div class="p-6">
               <p class="flex items-center gap-2 text-xs font-bold text-brand">{industryIcon[item.data.industry] && <Icon name={industryIcon[item.data.industry]} size={15} />}{item.data.industry} · 演示数据</p>
               <h3 class="mt-3 text-xl">{item.data.company}（{item.data.companyEn}）外贸独立站案例</h3>

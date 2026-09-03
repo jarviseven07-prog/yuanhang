@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/paths';
+
 interface Props {
   crumb: string;
   eyebrow?: string;
@@ -19,7 +21,7 @@ const hasRight = Boolean(Astro.slots.right);
     image ? (
       <>
         <img
-          src={image.src}
+          src={withBase(image.src)}
           alt={image.alt}
           width={image.width}
           height={image.height}
@@ -42,7 +44,7 @@ const hasRight = Boolean(Astro.slots.right);
     >
       <div class={hasRight ? 'md:col-span-5' : 'md:col-span-12'}>
         <nav aria-label="面包屑" class="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[12px] text-white/75 backdrop-blur">
-          <a href="/website" class="hover:text-white">首页</a>
+          <a href={withBase('/website')} class="hover:text-white">首页</a>
           <span aria-hidden="true" class="mx-2">/</span>
           <span>{crumb}</span>
         </nav>
@@ -53,8 +55,8 @@ const hasRight = Boolean(Astro.slots.right);
         <p class="mt-6 max-w-[38rem] text-[16px] leading-[1.85] text-white/82 md:text-[17px]">{tagline}</p>
         {(primary || secondary) && (
           <p class="mt-8 flex flex-wrap gap-4">
-            {primary && <a href={primary.href} class="btn-accent">{primary.label}</a>}
-            {secondary && <a href={secondary.href} class="btn-ghost">{secondary.label}</a>}
+            {primary && <a href={withBase(primary.href)} class="btn-accent">{primary.label}</a>}
+            {secondary && <a href={withBase(secondary.href)} class="btn-ghost">{secondary.label}</a>}
           </p>
         )}
         {note && (

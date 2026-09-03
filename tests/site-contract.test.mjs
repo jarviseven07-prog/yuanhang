@@ -25,6 +25,18 @@ const geoPage = readFileSync(
   new URL("../src/pages/geo.astro", import.meta.url),
   "utf8",
 );
+const astroConfig = readFileSync(
+  new URL("../astro.config.mjs", import.meta.url),
+  "utf8",
+);
+const pathHelper = readFileSync(
+  new URL("../src/lib/paths.ts", import.meta.url),
+  "utf8",
+);
+const pagesWorkflow = readFileSync(
+  new URL("../.github/workflows/pages.yml", import.meta.url),
+  "utf8",
+);
 const contentSource = ["website", "marketing", "seo", "geo"]
   .map((page) =>
     readFileSync(new URL(`../src/content/pages/${page}.md`, import.meta.url), "utf8"),
@@ -127,4 +139,11 @@ test("GEO platform and service cards include visible icons", () => {
   expect(geoPage).toContain("serviceIcons");
   expect(geoPage).toContain("<Icon name={platformIcons[i]");
   expect(geoPage).toContain("<Icon name={serviceIcons[i]");
+});
+
+test("GitHub Pages builds under the repository subpath without changing Vercel", () => {
+  expect(astroConfig).toContain("base: isGitHubPages ? '/yuanhang' : '/'");
+  expect(pathHelper).toContain("import.meta.env.BASE_URL");
+  expect(pagesWorkflow).toContain('GITHUB_PAGES: "true"');
+  expect(pagesWorkflow).toContain("actions/deploy-pages@v4");
 });

@@ -5,6 +5,7 @@ import SpecTable from '../components/SpecTable.astro';
 import CTABand from '../components/CTABand.astro';
 import ContactPanel from '../components/ContactPanel.astro';
 import Icon from '../components/Icon.astro';
+import { withBase } from '../lib/paths';
 
 const entry = await getEntry('pages', 'marketing');
 if (!entry || entry.data.page !== 'marketing') throw new Error('缺少 marketing 页面内容');
@@ -30,7 +31,7 @@ const marketingNav = [
   <section class="hero-gradient relative min-h-[410px] overflow-hidden pb-24 text-white md:pb-32">
     <div class="hero-grid"></div><div class="hero-glow"></div>
     <div class="container-shell relative pt-8 md:pt-11">
-      <nav aria-label="面包屑" class="text-xs text-white/60"><a href="/website" class="hover:text-white">首页</a><span class="mx-2">/</span>全网营销</nav>
+      <nav aria-label="面包屑" class="text-xs text-white/60"><a href={withBase('/website')} class="hover:text-white">首页</a><span class="mx-2">/</span>全网营销</nav>
       <div class="mx-auto mt-12 max-w-[820px] text-center">
         <p class="text-xs font-bold uppercase tracking-[.18em] text-white/60">Social growth suite</p>
         <h1 class="mt-4 text-white">{hero.h1}<br /><span class="text-[#86dbea]">保障交付，聚焦有效询盘</span></h1>
@@ -89,7 +90,7 @@ const marketingNav = [
 
         <section class="grid overflow-hidden rounded-[20px] bg-primary text-white lg:grid-cols-[.9fr_1.1fr]">
           <div class="flex flex-col justify-center p-8 lg:p-10"><p class="text-xs font-bold uppercase tracking-[.16em] text-[#8fe0e2]">Content to inquiry</p><h2 class="mt-4 text-white">从工厂素材到精准询盘闭环</h2><p class="mt-5 text-sm leading-7 text-white/70">围绕真实产线、产品细节与应用场景建立素材库，再通过多平台剪辑、发布、投放和统一客资承接，让内容生产与销售跟进连接起来。</p><div class="mt-7 grid grid-cols-3 gap-3">{[['01','素材采集'],['02','矩阵分发'],['03','线索承接']].map((item) => <div class="border-t border-white/20 pt-3"><strong class="block text-lg text-[#8fe0e2]">{item[0]}</strong><span class="mt-1 block text-xs text-white/58">{item[1]}</span></div>)}</div></div>
-          <div class="relative min-h-[320px]"><img src="/img/mid-workshop.webp" alt="整洁工厂中的成批产品与社媒内容素材场景" width={1792} height={1200} loading="eager" class="img-tuned absolute inset-0 h-full w-full object-cover" /><div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/20 to-transparent"></div></div>
+          <div class="relative min-h-[320px]"><img src={withBase('/img/mid-workshop.webp')} alt="整洁工厂中的成批产品与社媒内容素材场景" width={1792} height={1200} loading="eager" class="img-tuned absolute inset-0 h-full w-full object-cover" /><div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/20 to-transparent"></div></div>
         </section>
 
         <div class="space-y-10">

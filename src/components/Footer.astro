@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { withBase } from '../lib/paths';
 
 const offices = [
   ['上海服务中心', '华东地区 · 演示地址', '+86 000 0000 0000'],
@@ -11,11 +12,11 @@ const offices = [
 ];
 
 const navItems = [
-  { href: '/website', label: '网站建设' },
-  { href: '/marketing', label: '全网营销' },
-  { href: '/seo', label: 'Google SEO' },
-  { href: '/geo', label: 'GEO 优化' },
-  { href: '/cases', label: '成功案例' },
+  { href: withBase('/website'), label: '网站建设' },
+  { href: withBase('/marketing'), label: '全网营销' },
+  { href: withBase('/seo'), label: 'Google SEO' },
+  { href: withBase('/geo'), label: 'GEO 优化' },
+  { href: withBase('/cases'), label: '成功案例' },
 ];
 ---
 
