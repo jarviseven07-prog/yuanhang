@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import SpecTable from '../components/SpecTable.astro';
+import Icon from '../components/Icon.astro';
 import CTABand from '../components/CTABand.astro';
 import ContactPanel from '../components/ContactPanel.astro';
 
@@ -11,6 +12,8 @@ if (!entry || entry.data.page !== 'geo') throw new Error('缺少 geo 页面内�
 const data = entry.data;
 const { hero, painPoints, platforms, services, comparison, process, cta } = data;
 const platformList = platforms.groups.flatMap((group) => group.items);
+const platformIcons = ['ai', 'content', 'flow', 'search', 'monitor', 'data', 'ai', 'globe', 'content', 'search', 'globe', 'flow', 'monitor'];
+const serviceIcons = ['search', 'content', 'stack', 'speed', 'flow', 'data', 'globe', 'monitor', 'ai'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
@@ -40,11 +43,11 @@ const platformList = platforms.groups.flatMap((group) => group.items);
   </Section>
 
   <section class="border-y border-hairline bg-[linear-gradient(90deg,#f5f8fc_1px,transparent_1px),linear-gradient(#f5f8fc_1px,transparent_1px)] bg-[size:48px_48px] py-16 md:py-20">
-    <div class="container-shell text-center"><p class="eyebrow">Platforms</p><h2 class="mt-3">{platforms.heading}</h2><p class="mt-4 text-muted">{platforms.intro}</p><div class="mt-9 flex flex-wrap justify-center gap-3">{platformList.map((platform, i) => <span class="flex items-center gap-2 rounded-[11px] border border-hairline bg-white px-4 py-3 text-sm font-semibold text-primary shadow-[0_8px_18px_rgba(9,36,72,.045)]"><span class="flex h-6 w-6 items-center justify-center rounded-[7px] bg-tint text-[10px] font-bold text-brand">{String(i + 1).padStart(2, '0')}</span>{platform}</span>)}</div></div>
+    <div class="container-shell text-center"><p class="eyebrow">Platforms</p><h2 class="mt-3">{platforms.heading}</h2><p class="mt-4 text-muted">{platforms.intro}</p><div class="mt-9 flex flex-wrap justify-center gap-3">{platformList.map((platform, i) => <span class="flex items-center gap-3 rounded-[12px] border border-hairline bg-white px-4 py-3 text-sm font-semibold text-primary shadow-[0_8px_18px_rgba(9,36,72,.045)]"><span class="flex h-8 w-8 items-center justify-center rounded-[9px] bg-brand text-white"><Icon name={platformIcons[i] ?? 'ai'} size={17} /></span><span>{platform}</span></span>)}</div><div class="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs text-muted"><span><strong class="text-primary">境内 6 个：</strong>DeepSeek 至 Kimi</span><span><strong class="text-primary">境外 7 个：</strong>ChatGPT 至 Copilot</span></div></div>
   </section>
 
   <Section id="services" eyebrow="Services" title={services.heading} intro={services.intro} centered>
-    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{services.items.map((item, i) => <li class="card-lift rounded-[15px] border border-hairline p-6"><span class="font-mono text-[11px] font-bold tracking-[.14em] text-brand/55">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-4 text-lg">{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p></li>)}</ul>
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{services.items.map((item, i) => <li class="card-lift rounded-[15px] border border-hairline bg-white p-6"><div class="flex items-center justify-between"><span class="flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand text-white"><Icon name={serviceIcons[i] ?? 'structure'} size={22} /></span><span class="font-mono text-[11px] font-bold tracking-[.14em] text-brand/45">{String(i + 1).padStart(2, '0')}</span></div><h3 class="mt-5 text-lg">{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p></li>)}</ul>
   </Section>
 
   <Section eyebrow="SEO + GEO" title={comparison.heading} intro={comparison.intro} tone="tint" centered>

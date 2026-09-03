@@ -13,6 +13,18 @@ const marketingContent = readFileSync(
   new URL("../src/content/pages/marketing.md", import.meta.url),
   "utf8",
 );
+const marketingPage = readFileSync(
+  new URL("../src/pages/marketing.astro", import.meta.url),
+  "utf8",
+);
+const seoPage = readFileSync(
+  new URL("../src/pages/seo.astro", import.meta.url),
+  "utf8",
+);
+const geoPage = readFileSync(
+  new URL("../src/pages/geo.astro", import.meta.url),
+  "utf8",
+);
 const contentSource = ["website", "marketing", "seo", "geo"]
   .map((page) =>
     readFileSync(new URL(`../src/content/pages/${page}.md`, import.meta.url), "utf8"),
@@ -74,4 +86,36 @@ test("marketing restores the full reference delivery matrix", () => {
   ]) {
     expect(marketingContent).toContain(heading);
   }
+});
+
+test("marketing keeps the complete nine-part directory and lower-page anchors", () => {
+  for (const label of [
+    "效果 KPI",
+    "账号矩阵",
+    "运营交付",
+    "营销系统",
+    "客资系统",
+    "询盘标准",
+    "8 要素询盘",
+    "我们提供",
+    "客户配合",
+  ]) {
+    expect(marketingPage).toContain(label);
+  }
+  for (const id of ["eight-elements", "provider", "client"]) {
+    expect(marketingPage).toContain(id);
+  }
+});
+
+test("SEO renders its previously hidden context and reporting sections", () => {
+  expect(seoPage).toContain("title={sellingPoints.heading}");
+  expect(seoPage).toContain("title={reporting.heading}");
+  expect(seoPage).toContain("reporting.items.map");
+});
+
+test("GEO platform and service cards include visible icons", () => {
+  expect(geoPage).toContain("platformIcons");
+  expect(geoPage).toContain("serviceIcons");
+  expect(geoPage).toContain("<Icon name={platformIcons[i]");
+  expect(geoPage).toContain("<Icon name={serviceIcons[i]");
 });
