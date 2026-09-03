@@ -9,13 +9,12 @@ import ContactPanel from '../components/ContactPanel.astro';
 const entry = await getEntry('pages', 'seo');
 if (!entry || entry.data.page !== 'seo') throw new Error('缺少 seo 页面内容');
 const data = entry.data;
-const { hero, sellingPoints, solution, reporting, process, cta } = data;
+const { hero, sellingPoints, solution, process, cta } = data;
 const cases = (await getCollection('cases')).sort((a, b) => a.id.localeCompare(b.id)).slice(0, 3);
 const heroIcons = ['globe', 'social', 'data', 'search'];
 const solutionIcons = ['speed', 'content', 'link', 'data'];
 const processIcons = ['search', 'speed', 'content', 'link', 'monitor', 'flow'];
 const metrics = [['300%', '平均流量提升'], ['10 年+', 'SEO 优化经验'], ['98%', '客户满意度']];
-const websitePoints = ['收录友好的站点架构', 'Core Web Vitals 性能达标', '面向搜索与 AI 的结构化数据'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
@@ -29,91 +28,28 @@ const websitePoints = ['收录友好的站点架构', 'Core Web Vitals 性能达
         <p class="mt-6 max-w-[520px] text-base leading-8 text-white/76">{hero.tagline}</p>
         <a href="#contact" class="btn-light mt-8">立即获取解决方案 <span aria-hidden="true">→</span></a>
       </div>
-      <ul class="grid gap-4 sm:grid-cols-2 md:gap-5">
-        {sellingPoints.items.map((item, i) => (
-          <li class="rounded-[16px] border border-white/14 bg-white/[.07] p-6 backdrop-blur">
-            <span class="flex h-11 w-11 items-center justify-center rounded-[10px] bg-white/15 text-white"><Icon name={heroIcons[i]} size={22} /></span>
-            <h3 class="mt-5 text-lg text-white">{item.name}</h3>
-            <p class="mt-3 text-sm leading-7 text-white/66">{item.desc}</p>
-          </li>
-        ))}
+      <ul class="grid grid-cols-2 gap-x-6 gap-y-8 md:gap-8">
+        {sellingPoints.items.map((item, i) => <li><span class="flex h-14 w-14 items-center justify-center rounded-[12px] border border-white/30 text-white"><Icon name={heroIcons[i]} size={29} /></span><h3 class="mt-4 text-lg text-white">{item.name}</h3><p class="mt-2 text-sm leading-7 text-white/66">{item.desc}</p></li>)}
       </ul>
     </div>
   </section>
 
-  <Section eyebrow="Better with website" title="SEO 效果，从建站就开始积累" intro="站点结构、性能与结构化数据决定搜索引擎与 AI 的收录质量。SEO 动手前，先确认这些地基已经打好。">
-    <div class="grid items-center gap-10 lg:grid-cols-2">
-      <div>
-        <p class="text-muted">如果站点还没有做这些准备，先补基础再谈排名：</p>
-        <div class="mt-7 grid grid-cols-3 gap-3">
-          {websitePoints.map((point, i) => <div class="rounded-[12px] bg-tint p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs leading-5 text-muted">{point}</span></div>)}
-        </div>
-        <a href="/website" class="btn-primary mt-8">了解网站建设 <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src="/img/svc-data.webp" alt="数据中心走道场景，象征搜索与收录基础设施" width={1792} height={1200} loading="lazy" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
-    </div>
+  <Section eyebrow="SEO solutions" title={solution.heading} intro={solution.intro} centered>
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+      {solution.items.map((item, i) => <li class="card-lift rounded-[17px] border border-hairline p-6"><span class="flex h-12 w-12 items-center justify-center rounded-[9px] bg-brand text-white"><Icon name={solutionIcons[i]} size={25} /></span><h3 class="mt-6">{item.name}</h3>{item.list && <ul class="mt-5 grid grid-cols-2 gap-x-3 gap-y-2 lg:grid-cols-1 xl:grid-cols-2">{item.list.map((text) => <li class="flex gap-2 text-xs leading-5 text-muted"><span class="mt-2 h-1 w-1 shrink-0 bg-brand"></span>{text}</li>)}</ul>}</li>)}
+    </ul>
   </Section>
 
-  <Section eyebrow="SEO solutions" title={solution.heading} intro={solution.intro} tone="tint" centered>
-    <div class="grid gap-5 lg:grid-cols-2">
-      {solution.items.map((item, i) => (
-        <article class="card-lift rounded-[18px] border border-hairline bg-white p-6 md:p-8">
-          <div class="flex items-center gap-4">
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-brand text-white"><Icon name={solutionIcons[i]} size={22} /></span>
-            <div class="flex flex-wrap items-baseline gap-x-3">
-              <h3>{item.name}</h3>
-              <span class="font-mono text-[11px] font-bold tracking-[.14em] text-brand/45">0{i + 1}</span>
-            </div>
-          </div>
-          {item.list && (
-            <ul class="mt-6 grid grid-cols-1 gap-x-4 gap-y-3 border-t border-hairline pt-6 sm:grid-cols-2">
-              {item.list.map((text) => <li class="flex gap-2 text-sm text-muted"><span class="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-brand/70"></span>{text}</li>)}
-            </ul>
-          )}
-        </article>
-      ))}
-    </div>
-  </Section>
+  <section class="pb-20 md:pb-28"><div class="container-shell"><div class="grid gap-3 md:grid-cols-3">{metrics.map((item) => <div class="bg-mint px-6 py-9 text-center"><strong class="text-4xl tracking-[-.04em] text-brand">{item[0]}</strong><p class="mt-2 text-sm text-muted">{item[1]}</p></div>)}</div><p class="mt-3 text-center text-xs text-muted">* 参考版式中的演示指标，不代表真实业绩或效果承诺。</p></div></section>
 
-  <Section eyebrow="Reporting" title={reporting.heading} intro={reporting.intro} tone="mint" centered>
-    <div class="relative">
-      <div aria-hidden="true" class="absolute left-[17%] right-[17%] top-[17px] hidden h-0.5 bg-white lg:block"></div>
-      <ol class="relative grid gap-8 md:grid-cols-3">
-        {reporting.items.map((item, i) => (
-          <li class="text-center">
-            <span class="relative mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-brand font-mono text-xs font-bold text-white shadow-[0_6px_16px_rgba(25,95,207,.28)]">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mt-5 text-lg">{item.name}</h3>
-            <p class="mx-auto mt-3 max-w-[300px] text-sm leading-7 text-muted">{item.desc}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-    <div class="mt-12 grid gap-3 md:grid-cols-3">
-      {metrics.map((item) => <div class="rounded-[14px] bg-white px-6 py-9 text-center shadow-[0_10px_26px_rgba(9,36,72,.05)]"><strong class="text-4xl tracking-[-.04em] text-brand">{item[0]}</strong><p class="mt-2 text-sm text-muted">{item[1]}</p></div>)}
-    </div>
-    <p class="mt-4 text-center text-xs text-muted">* 参考版式中的演示指标，不代表真实业绩或效果承诺。</p>
-  </Section>
-
-  <Section eyebrow="Our process" title={process.heading} intro={process.intro} centered>
-    <ol class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-      {process.items.map((item, i) => (
-        <li class="card-lift relative overflow-hidden rounded-[18px] border border-hairline bg-white p-7">
-          <span aria-hidden="true" class="pointer-events-none absolute -right-2 -top-6 select-none font-serif text-[92px] font-bold leading-none text-tint">{String(i + 1).padStart(2, '0')}</span>
-          <span class="relative flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand text-white"><Icon name={processIcons[i]} size={22} /></span>
-          <h3 class="relative mt-5">{item.name}</h3>
-          <p class="relative mt-3 text-sm leading-7 text-muted">{item.desc}</p>
-          {item.list && (
-            <ul class="relative mt-4 space-y-2 border-t border-hairline pt-4">
-              {item.list.map((text) => <li class="flex gap-2 text-xs leading-6 text-muted"><span class="text-brand">›</span>{text}</li>)}
-            </ul>
-          )}
-        </li>
-      ))}
-    </ol>
+  <Section eyebrow="Our process" title={process.heading} intro={process.intro} tone="mint" centered>
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {process.items.map((item, i) => <li class="card-lift rounded-[17px] border border-white/60 bg-white p-6 shadow-[0_12px_24px_rgba(9,36,72,.06)]"><span class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand text-brand"><Icon name={processIcons[i]} size={23} /></span><p class="mt-5 font-mono text-[11px] font-bold tracking-[.16em] text-brand/55">STEP {String(i + 1).padStart(2, '0')}</p><h3 class="mt-2">{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p>{item.list && <ul class="mt-4 space-y-2">{item.list.map((text) => <li class="flex gap-2 text-xs text-muted"><span class="text-brand">›</span>{text}</li>)}</ul>}</li>)}
+    </ul>
   </Section>
 
   <Section eyebrow="Success cases" title="SEO 优化 · 成功案例" intro="通过系统化优化，让品牌持续获得更高质量的自然流量。以下均为虚构演示案例。" tone="cloud" centered>
-    <ul class="grid gap-5 md:grid-cols-3">{cases.map((item, i) => <li class="card-lift overflow-hidden rounded-[18px] border border-hairline bg-white text-left"><div class="relative"><img src={item.data.image} alt={`${item.data.industry}SEO 案例演示图`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover" /><span class="absolute left-5 top-4 rounded-full bg-white/92 px-3 py-1 text-[11px] font-bold tracking-[.1em] text-brand">0{i + 1}</span></div><div class="p-6"><p class="text-xs font-bold text-brand">{item.data.industry} · 演示数据</p><h3 class="mt-2">{item.data.company}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.data.result}</p><a href="/cases" class="mt-5 inline-flex text-sm font-bold text-brand">查看详情 →</a></div></li>)}</ul>
+    <ul class="grid gap-5 md:grid-cols-3">{cases.map((item, i) => <li class="card-lift overflow-hidden rounded-[18px] border border-hairline bg-white text-left"><div class="relative"><img src={item.data.image} alt={`${item.data.industry}SEO 案例演示图`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover" /><span class="absolute bottom-3 left-4 text-3xl font-bold text-white">0{i + 1}</span></div><div class="p-6"><p class="text-xs font-bold text-brand">{item.data.industry} · 演示数据</p><h3 class="mt-2">{item.data.company}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.data.result}</p><a href="/cases" class="mt-5 inline-flex text-sm font-bold text-brand">查看详情 →</a></div></li>)}</ul>
   </Section>
 
   <CTABand title={cta.title} desc={cta.desc} buttonLabel="获取 SEO 诊断" href="#contact" />
