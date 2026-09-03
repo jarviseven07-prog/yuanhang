@@ -1,204 +1,102 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
 import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
 import CTABand from '../components/CTABand.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+import Icon from '../components/Icon.astro';
 
 const entry = await getEntry('pages', 'website');
-if (!entry || entry.data.page !== 'website') {
-  throw new Error('缺少 website 页面内容');
-}
+if (!entry || entry.data.page !== 'website') throw new Error('缺少 website 页面内容');
 const data = entry.data;
-const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarantee, ops, cta } =
-  data;
-
+const { hero, whyUs, plans, customValue, serviceGroups, featureModules, guarantee, ops, cta } = data;
+const cases = (await getCollection('cases')).sort((a, b) => a.id.localeCompare(b.id)).slice(0, 3);
 const whyUsIcons = ['structure', 'support', 'flow', 'speed', 'delivery', 'data'];
-const customValueIcons = ['structure', 'monitor', 'flow', 'search', 'security', 'social'];
+const customImages = ['/img/svc-design.webp', '/img/mid-responsive.webp', '/img/mid-office.webp', '/img/mid-workshop.webp', '/img/svc-data.webp', '/img/mid-warehouse.webp'];
+const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
+  const key = row[2];
+  (acc[key] ??= []).push(row);
+  return acc;
+}, {} as Record<string, string[][]>));
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <Hero
-    crumb="网站建设"
-    h1={hero.h1}
-    tagline={hero.tagline}
-    primary={{ label: '获取建站方案', href: 'mailto:demo@example.com' }}
-    secondary={{ label: '看案例', href: '/cases' }}
-    image={{
-      src: '/img/hero-website.webp',
-      alt: '工作台上的笔记本电脑显示完成的深蓝企业网站界面',
-      width: 2400,
-      height: 1056,
-    }}
-  />
+  <Hero crumb="网站建设" h1={hero.h1} tagline={hero.tagline} primary={{ label: '获取建站方案', href: '#contact' }} secondary={{ label: '浏览案例', href: '/cases' }} image={{ src: '/img/hero-website.webp', alt: '完成的深蓝企业网站界面展示在工作台电脑上', width: 2400, height: 1056 }} />
 
-  <Section title={whyUs.heading} intro={whyUs.intro} alt>
+  <Section eyebrow="Why Yuanhang" title={whyUs.heading} intro={whyUs.intro} centered>
     <FeatureGrid items={whyUs.items} columns={3} icons={whyUsIcons} />
   </Section>
 
-  <Section title={plans.heading} intro={plans.intro}>
-    <div class="grid gap-12 md:grid-cols-2 md:items-center">
-      <div class="grid gap-4 md:gap-6">
-        {
-          plans.items.map((plan, i) => (
-            <article class="rounded-[18px] border border-hairline bg-white p-7">
-              <span
-                aria-hidden="true"
-                class={`mb-5 flex h-14 w-14 items-center justify-center rounded-[12px] text-lg font-bold ${
-                  i === 0 ? 'bg-tint text-brand' : 'bg-primary text-white'
-                }`}
-              >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <p class="text-[13px] font-semibold tracking-[.08em] text-accent">{plan.eyebrow}</p>
-              <h3 class="mt-2">{plan.name}</h3>
-              <p class="mt-2 text-[15px] text-muted">{plan.desc}</p>
-              <ul class="mt-6 space-y-4">
-                {plan.points.map((pt) => (
-                  <li class="text-sm text-muted">
-                    <strong class="mr-2 font-semibold text-primary">{pt.name}</strong>
-                    {pt.desc}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
-      </div>
-      <figure class="overflow-hidden rounded-[18px] border border-hairline">
-        <img
-          src="/img/svc-design.webp"
-          alt="设计评审桌上的完成稿与精密金属样品"
-          width={1792}
-          height={1200}
-          loading="lazy"
-          class="img-tuned aspect-[3/2] w-full object-cover"
-        />
-      </figure>
+  <Section eyebrow="Service positioning" title={plans.heading} intro={plans.intro} tone="tint" centered>
+    <div class="grid gap-5 lg:grid-cols-2">
+      {plans.items.map((plan, i) => (
+        <article class={`relative overflow-hidden rounded-[22px] p-7 text-white shadow-[0_22px_48px_rgba(9,36,72,.14)] md:p-9 ${i === 0 ? 'bg-gradient-to-br from-primary to-[#1555aa]' : 'bg-gradient-to-br from-[#0a3063] to-[#1974d7]'}`}>
+          <span class="absolute right-5 top-2 font-serif text-[88px] font-bold leading-none text-white/8">0{i + 1}</span>
+          <p class="text-xs font-bold uppercase tracking-[.14em] text-white/58">{plan.eyebrow}</p>
+          <h3 class="mt-3 text-3xl text-white">{plan.name}</h3>
+          <p class="mt-4 max-w-[560px] text-sm leading-7 text-white/72">{plan.desc}</p>
+          <ul class="mt-7 grid gap-3 sm:grid-cols-2">
+            {plan.points.map((pt) => <li class="rounded-[12px] border border-white/14 bg-white/[.07] p-4"><strong class="block text-sm text-white">{pt.name}</strong><span class="mt-1 block text-xs leading-6 text-white/64">{pt.desc}</span></li>)}
+          </ul>
+          <a href="#service-specs" class={`mt-7 ${i === 0 ? 'btn-light' : 'btn-ghost'}`}>查看服务配置 <span aria-hidden="true">→</span></a>
+        </article>
+      ))}
     </div>
   </Section>
 
-  <Section title={customValue.heading} intro={customValue.intro} alt>
-    <FeatureGrid items={customValue.items} columns={3} numbered icons={customValueIcons} />
+  <Section eyebrow="Custom advantages" title={customValue.heading} intro={customValue.intro} centered>
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {customValue.items.map((item, i) => (
+        <li class="card-lift overflow-hidden rounded-[18px] border border-hairline bg-white">
+          <div class="relative overflow-hidden"><img src={customImages[i]} alt={`${item.name}服务场景`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover transition duration-500 hover:scale-[1.025]" /><span class="absolute left-5 top-4 rounded-full bg-white/92 px-3 py-1 text-[11px] font-bold tracking-[.1em] text-brand">0{i + 1}</span></div>
+          <div class="p-6"><h3>{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p></div>
+        </li>
+      ))}
+    </ul>
   </Section>
 
-  <Section title={serviceGroups.heading} intro={serviceGroups.intro}>
-    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
-      <img
-        src="/img/mid-workshop.webp"
-        alt="明亮机加工车间内，料架上整齐陈列成批精密零件"
-        width={1792}
-        height={1200}
-        loading="lazy"
-        class="img-tuned aspect-[21/9] w-full object-cover"
-      />
-    </figure>
-    <div class="space-y-10">
-      {
-        serviceGroups.groups.map((group) => (
-          <div>
-            <h3>{group.name}</h3>
-            {group.intro && <p class="mt-2 max-w-[720px] text-sm text-muted">{group.intro}</p>}
-            <div class="mt-4">
-              <SpecTable
-                columns={serviceGroups.columns}
-                rows={group.rows}
-                checkCells
-                leftCols={2}
-              />
-            </div>
-          </div>
-        ))
-      }
+  <Section id="service-specs" eyebrow="Service matrix" title={serviceGroups.heading} intro={serviceGroups.intro} tone="cloud" centered>
+    <div class="space-y-7">
+      {serviceGroups.groups.map((group, i) => (
+        <article class="rounded-[18px] border border-hairline bg-white p-3 shadow-[0_16px_36px_rgba(9,36,72,.055)] md:p-5">
+          <div class="flex items-center gap-4 px-2 py-3 md:px-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[11px] bg-tint text-brand"><Icon name={['structure','social','search','data','globe'][i] ?? 'structure'} size={23} /></span><div><h3>{group.name}</h3>{group.intro && <p class="mt-1 text-sm text-muted">{group.intro}</p>}</div></div>
+          <div class="mt-2"><SpecTable columns={serviceGroups.columns} rows={group.rows} checkCells leftCols={2} wide /></div>
+        </article>
+      ))}
     </div>
-    <p class="mt-6 text-sm text-muted">{serviceGroups.note}</p>
+    <p class="mt-6 text-left text-xs leading-6 text-muted">{serviceGroups.note}</p>
   </Section>
 
-  <Section title={featureModules.heading} intro={featureModules.intro} alt>
-    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
-      <img
-        src="/img/mid-responsive.webp"
-        alt="平板与手机显示同一套完成的响应式企业网站界面"
-        width={1792}
-        height={1200}
-        loading="lazy"
-        class="img-tuned aspect-[21/9] w-full object-cover"
-      />
-    </figure>
-    <SpecTable
-      columns={featureModules.columns}
-      rows={featureModules.rows}
-      limit={12}
-      wide
-      rowHeaders={false}
-      leftCols={2}
-    />
-  </Section>
-
-  <Section title={guarantee.heading}>
-    <figure class="mb-10 overflow-hidden rounded-[18px] border border-hairline">
-      <img
-        src="/img/mid-office.webp"
-        alt="侧窗光下的会议桌，摆放完成的设计和数据图表印刷稿"
-        width={1792}
-        height={1200}
-        loading="lazy"
-        class="img-tuned aspect-[21/9] w-full object-cover"
-      />
-    </figure>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
-      {
-        guarantee.items.map((item) => (
-          <article class="rounded-[18px] border border-hairline bg-white p-7">
-            <h3>{item.name}</h3>
-            <ul class="mt-4 space-y-2">
-              {item.points.map((point) => (
-                <li class="flex gap-2 text-[15px] text-muted">
-                  <span aria-hidden="true" class="text-brand">·</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
+  <Section eyebrow="Core modules" title={featureModules.heading} intro={featureModules.intro} centered>
+    <div class="grid gap-5 md:grid-cols-2">
+      {moduleGroups.map(([name, rows], i) => (
+        <details class="group rounded-[16px] border border-hairline bg-white open:shadow-[0_16px_36px_rgba(9,36,72,.07)]" open={i < 2}>
+          <summary class="flex list-none items-center justify-between gap-4 p-5"><span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-[9px] bg-tint text-brand"><Icon name={['structure','flow','security','delivery','data','content','globe'][i] ?? 'structure'} size={19} /></span><strong class="text-primary">{name}</strong></span><span class="text-xs text-muted">{rows.length} 项 ＋</span></summary>
+          <ul class="border-t border-hairline px-5 py-4">{rows.map((row) => <li class="flex gap-3 border-b border-hairline/70 py-3 last:border-0"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-success"></span><p class="text-sm"><strong class="text-primary">{row[0]}</strong><span class="mt-1 block text-xs leading-6 text-muted">{row[1]}</span></p></li>)}</ul>
+        </details>
+      ))}
     </div>
   </Section>
 
-  <Section title={ops.heading} alt>
-    <div class="grid gap-12 md:grid-cols-2 md:items-center">
-      <figure class="order-1 overflow-hidden rounded-[18px] border border-hairline md:order-2">
-        <img
-          src="/img/svc-data.webp"
-          alt="机房走道，两侧是成排的服务器机柜"
-          width={1792}
-          height={1200}
-          loading="lazy"
-          class="img-tuned aspect-[3/2] w-full object-cover"
-        />
-      </figure>
-      <div class="order-2 max-w-[720px] space-y-4 md:order-1">
-        {ops.body.map((paragraph) => <p class="text-muted">{paragraph}</p>)}
-      </div>
+  <Section eyebrow="Operations" title={ops.heading} tone="tint">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div><p class="text-muted">{ops.body[0]}</p><div class="mt-8 grid grid-cols-3 gap-3">{['数据可见','动作可追','持续迭代'].map((item, i) => <div class="rounded-[12px] bg-white p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs text-muted">{item}</span></div>)}</div></div>
+      <img src="/img/svc-data.webp" alt="整洁的数据中心设备与蓝色状态灯" width={1792} height={1200} loading="lazy" class="img-tuned aspect-[3/2] w-full rounded-[20px] object-cover shadow-[0_22px_48px_rgba(9,36,72,.12)]" />
     </div>
   </Section>
 
-  <div class="mx-auto max-w-[1200px] px-4 md:px-6">
-    <figure class="overflow-hidden rounded-[18px] border border-hairline">
-      <img
-        src="/img/mid-warehouse.webp"
-        alt="出口仓库内整齐货架、托盘缠膜和封箱带纸箱"
-        width={1792}
-        height={1200}
-        loading="lazy"
-        class="img-tuned aspect-[21/9] w-full object-cover"
-      />
-    </figure>
-  </div>
+  <Section eyebrow="After sales" title={guarantee.heading} centered>
+    <div class="grid gap-5 md:grid-cols-2">{guarantee.items.map((item, i) => <article class="rounded-[18px] border border-hairline p-7"><span class="flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand text-white"><Icon name={i === 0 ? 'support' : 'delivery'} size={22} /></span><h3 class="mt-5">{item.name}</h3><ul class="mt-4 space-y-3">{item.points.map((point) => <li class="flex gap-3 text-sm text-muted"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-success"></span>{point}</li>)}</ul></article>)}</div>
+  </Section>
 
-  <div class="h-14 md:h-24" aria-hidden="true"></div>
+  <Section eyebrow="Selected work" title="定制化案例" intro="六个虚构行业的 Demo，展示网站与增长服务的组合方式。" tone="cloud" centered>
+    <ul class="grid gap-5 md:grid-cols-3">{cases.map((item) => <li class="card-lift overflow-hidden rounded-[17px] border border-hairline bg-white text-left"><img src={item.data.image} alt={`${item.data.industry}行业案例演示图`} width={1616} height={1008} loading="lazy" class="img-tuned aspect-[8/5] w-full object-cover" /><div class="p-5"><p class="text-xs font-bold text-brand">{item.data.industry} · 演示案例</p><h3 class="mt-2">{item.data.company}</h3><p class="mt-3 text-sm text-muted">{item.data.result}</p></div></li>)}</ul>
+    <a href="/cases" class="btn-primary mt-8">查看全部案例 <span aria-hidden="true">→</span></a>
+  </Section>
 
-  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel="获取建站建议" href="#contact" />
+  <ContactPanel />
 </BaseLayout>

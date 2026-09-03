@@ -1,108 +1,68 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
-import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
 import CTABand from '../components/CTABand.astro';
+import ContactPanel from '../components/ContactPanel.astro';
 
 const entry = await getEntry('pages', 'geo');
-if (!entry || entry.data.page !== 'geo') {
-  throw new Error('缺少 geo 页面内容');
-}
+if (!entry || entry.data.page !== 'geo') throw new Error('缺少 geo 页面内容');
 const data = entry.data;
 const { hero, painPoints, platforms, services, comparison, process, cta } = data;
-
 const platformList = platforms.groups.flatMap((group) => group.items);
-
-const painPointsIcons = ['link', 'ai', 'search', 'globe', 'data', 'flow'];
-const servicesIcons = [
-  'ai',
-  'content',
-  'structure',
-  'search',
-  'globe',
-  'flow',
-  'link',
-  'monitor',
-  'support',
-];
-const processIcons = ['search', 'flow', 'delivery', 'monitor'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <Hero
-    crumb="GEO 优化"
-    eyebrow={hero.eyebrow}
-    h1={hero.h1}
-    tagline={hero.tagline}
-    primary={{ label: '获取 GEO 诊断', href: 'mailto:demo@example.com' }}
-    secondary={{ label: '看案例', href: '/cases' }}
-  >
-    <div
-      slot="right"
-      class="rounded-[18px] border border-white/25 bg-white/10 p-6 backdrop-blur"
-      role="img"
-      aria-label="示意图：AI 回答窗口，包含状态点、三条色块答语与两个引用条"
-    >
-      <div class="flex items-center gap-1.5" aria-hidden="true">
-        <span class="h-2.5 w-2.5 rounded-full bg-white/50"></span>
-        <span class="h-2.5 w-2.5 rounded-full bg-white/35"></span>
-        <span class="h-2.5 w-2.5 rounded-full bg-white/20"></span>
-        <span class="ml-3 h-2 w-40 max-w-[50%] rounded-full bg-white/25"></span>
+  <section class="hero-gradient relative overflow-hidden text-white">
+    <div class="hero-grid"></div><div class="hero-glow"></div>
+    <div class="container-shell relative grid min-h-[560px] items-center gap-10 py-14 lg:grid-cols-[1fr_1.1fr] lg:py-20">
+      <div>
+        <nav aria-label="面包屑" class="text-xs text-white/58"><a href="/website" class="hover:text-white">首页</a><span class="mx-2">/</span>GEO 优化</nav>
+        <p class="mt-8 inline-flex rounded-full border border-white/20 bg-white/[.08] px-3 py-1 text-[10px] font-bold uppercase tracking-[.16em] text-[#8fe0e2]">{hero.eyebrow}</p>
+        <h1 class="mt-5 max-w-[12ch] text-white">GEO 优化<br />{hero.h1}</h1>
+        <p class="mt-6 max-w-[550px] text-sm leading-7 text-white/74 md:text-base">{hero.tagline}</p>
+        <div class="mt-8 flex flex-wrap gap-3"><a href="#contact" class="btn-light">免费 AI 曝光诊断 →</a><a href="#services" class="btn-ghost">了解 GEO 服务</a></div>
+        <p class="mt-7 text-xs text-white/48">国内 + 海外 AI 双线覆盖 · 内容 / 权威 / 抓取全链路</p>
       </div>
-      <div class="mt-6 space-y-3" aria-hidden="true">
-        <p class="h-3 w-[92%] rounded-full bg-white/70"></p>
-        <p class="h-3 w-[78%] rounded-full bg-white/55"></p>
-        <p class="h-3 w-[64%] rounded-full bg-white/40"></p>
+      <div class="relative rounded-[18px] border border-white/18 bg-[#071a38]/78 p-5 shadow-[0_30px_70px_rgba(0,0,0,.28)] backdrop-blur md:p-7" role="img" aria-label="完成的 AI 搜索结果界面示意">
+        <div class="flex items-center gap-2 border-b border-white/10 pb-4"><span class="h-2.5 w-2.5 rounded-full bg-[#f37272]"></span><span class="h-2.5 w-2.5 rounded-full bg-[#ead56d]"></span><span class="h-2.5 w-2.5 rounded-full bg-[#62d6bd]"></span><span class="ml-3 text-[10px] font-bold uppercase tracking-[.15em] text-white/45">AI Search · GEO ready</span></div>
+        <div class="mt-5 flex gap-3 rounded-[11px] border border-white/8 bg-white/[.055] p-4"><span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-brand text-xs font-bold">AI</span><p class="text-sm leading-6 text-white/75">有哪些可靠的外贸独立站建设与 Google SEO 服务商推荐？</p></div>
+        <div class="mt-4 rounded-[12px] border border-brand/50 bg-brand/15 p-5"><p class="text-[10px] font-bold uppercase tracking-[.12em] text-[#8fe0e2]">AI 推荐答案</p><h3 class="mt-3 text-xl text-white">您的品牌现在这里</h3><p class="mt-3 text-xs leading-6 text-white/62">结构化品牌信息、产品能力、案例证据和可引用答案被清晰组织并持续维护。</p><div class="mt-4 flex flex-wrap gap-2"><span class="rounded-full bg-white/8 px-3 py-1 text-[10px] text-white/65">品牌词命中</span><span class="rounded-full bg-white/8 px-3 py-1 text-[10px] text-white/65">引用率 ↑</span><span class="rounded-full bg-white/8 px-3 py-1 text-[10px] text-white/65">答案更准确</span></div></div>
+        <span class="absolute -bottom-5 right-5 rounded-[10px] bg-white px-4 py-2 text-xs font-bold text-brand shadow-xl">+AI 可见度提升</span>
       </div>
-      <div class="mt-6 grid gap-3" aria-hidden="true">
-        <div class="flex items-center gap-3 rounded-[12px] border border-white/25 bg-white/10 px-4 py-3">
-          <span class="h-6 w-6 shrink-0 rounded-[8px] bg-white/60"></span>
-          <span class="h-2 w-[70%] rounded-full bg-white/40"></span>
-        </div>
-        <div class="flex items-center gap-3 rounded-[12px] border border-white/25 bg-white/10 px-4 py-3">
-          <span class="h-6 w-6 shrink-0 rounded-[8px] bg-white/60"></span>
-          <span class="h-2 w-[56%] rounded-full bg-white/40"></span>
-        </div>
-      </div>
-    </div>
-  </Hero>
-
-  <section aria-label="覆盖的主流 AI 平台" class="border-b border-hairline bg-white">
-    <div
-      class="mx-auto flex min-h-[120px] max-w-[1200px] flex-nowrap items-center gap-3 overflow-x-auto px-4 py-6 md:flex-wrap md:justify-center md:gap-4 md:px-6"
-    >
-      {
-        platformList.map((platform, i) => (
-          <span class="flex h-10 shrink-0 items-center gap-2 rounded-[10px] bg-tint px-4 text-sm font-medium text-primary">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
-              <rect x="8" y="8" width="8" height="8" rx="2" transform={`rotate(${i * 15} 12 12)`} />
-              <circle cx="12" cy="4.5" r="1.2" transform={`rotate(${i * 15} 12 12)`} />
-            </svg>
-            {platform}
-          </span>
-        ))
-      }
     </div>
   </section>
 
-  <Section title={painPoints.heading} intro={painPoints.intro} outro={painPoints.outro} alt>
-    <FeatureGrid items={painPoints.items} columns={3} numbered icons={painPointsIcons} />
+  <Section eyebrow="Pain points" title={painPoints.heading} intro={painPoints.intro} centered>
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{painPoints.items.map((item, i) => <li class="card-lift border-l-2 border-l-brand border-y border-r border-hairline bg-white p-6"><span class="inline-flex rounded-[6px] bg-tint px-2 py-1 font-mono text-[10px] font-bold text-brand">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-4 text-lg">{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p></li>)}</ul>
+    <p class="mx-auto mt-8 max-w-[820px] text-sm font-semibold text-brand">{painPoints.outro}</p>
   </Section>
 
-  <Section title={services.heading} intro={services.intro}>
-    <FeatureGrid items={services.items} columns={3} numbered icons={servicesIcons} />
+  <section class="border-y border-hairline bg-[linear-gradient(90deg,#f5f8fc_1px,transparent_1px),linear-gradient(#f5f8fc_1px,transparent_1px)] bg-[size:48px_48px] py-16 md:py-20">
+    <div class="container-shell text-center"><p class="eyebrow">Platforms</p><h2 class="mt-3">{platforms.heading}</h2><p class="mt-4 text-muted">{platforms.intro}</p><div class="mt-9 flex flex-wrap justify-center gap-3">{platformList.map((platform, i) => <span class="flex items-center gap-2 rounded-[11px] border border-hairline bg-white px-4 py-3 text-sm font-semibold text-primary shadow-[0_8px_18px_rgba(9,36,72,.045)]"><span class="flex h-6 w-6 items-center justify-center rounded-[7px] bg-tint text-[10px] font-bold text-brand">{String(i + 1).padStart(2, '0')}</span>{platform}</span>)}</div></div>
+  </section>
+
+  <Section id="services" eyebrow="Services" title={services.heading} intro={services.intro} centered>
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{services.items.map((item, i) => <li class="card-lift rounded-[15px] border border-hairline p-6"><span class="font-mono text-[11px] font-bold tracking-[.14em] text-brand/55">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-4 text-lg">{item.name}</h3><p class="mt-3 text-sm leading-7 text-muted">{item.desc}</p></li>)}</ul>
   </Section>
 
-  <Section title={comparison.heading} intro={comparison.intro} outro={comparison.outro} alt>
-    <SpecTable columns={comparison.columns} rows={comparison.rows} />
+  <Section eyebrow="SEO + GEO" title={comparison.heading} intro={comparison.intro} tone="tint" centered>
+    <SpecTable columns={comparison.columns} rows={comparison.rows} wide />
+    <p class="mx-auto mt-6 max-w-[820px] text-sm text-muted">{comparison.outro}</p>
   </Section>
 
-  <Section title={process.heading} intro={process.intro}>
-    <FeatureGrid items={process.items} columns={4} numbered icons={processIcons} />
+  <Section eyebrow="Results" title="从 0 曝光到可追踪的 AI 引用" intro="以下为虚构机械设备企业的 GEO 落地演示，用来展示项目汇报结构，不代表真实客户结果。" centered>
+    <div class="grid overflow-hidden rounded-[20px] border border-hairline bg-primary shadow-[0_24px_54px_rgba(9,36,72,.14)] lg:grid-cols-[1.15fr_.85fr]">
+      <div class="relative min-h-[330px]"><img src="/img/case-04.webp" alt="机械设备出海企业 GEO 演示案例场景" width={1616} height={1008} loading="lazy" class="img-tuned absolute inset-0 h-full w-full object-cover opacity-45" /><div class="photo-overlay absolute inset-0"></div><div class="relative flex min-h-[330px] flex-col justify-end p-7 text-white md:p-9"><p class="text-xs font-bold uppercase tracking-[.14em] text-[#8fe0e2]">客户类型 · 外贸 / 制造业</p><h3 class="mt-3 text-2xl text-white">机械设备出海企业 · GEO 演示成果</h3><p class="mt-4 max-w-[560px] text-sm leading-7 text-white/70">核心动作：FAQ 知识库搭建、LLMs 抓取配置、结构化产品数据和权威媒体分发。</p></div></div>
+      <div class="grid bg-white">{[['0 → 有引用','从无品牌提及到出现结构化引用'],['双引擎','SEO 与 GEO 同步形成入口'],['可追踪','词条、引用与答语持续监控']].map((item) => <div class="border-b border-hairline p-7 last:border-0"><h3 class="text-2xl text-brand">{item[0]}</h3><p class="mt-2 text-sm text-muted">{item[1]}</p></div>)}</div>
+    </div>
   </Section>
 
-  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+  <Section eyebrow="Process" title={process.heading} intro={process.intro} tone="cloud" centered>
+    <ol class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">{process.items.map((item, i) => <li class="relative rounded-[16px] border border-hairline bg-white p-6 text-center"><span class="mx-auto flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand font-mono text-xs font-bold text-white">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-lg">{item.name}</h3><p class="mt-3 text-sm text-muted">{item.desc}</p></li>)}</ol>
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel="免费获取诊断建议" href="#contact" />
+  <ContactPanel />
 </BaseLayout>

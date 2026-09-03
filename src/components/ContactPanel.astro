@@ -1,0 +1,50 @@
+---
+const offices = [
+  { city: '上海', role: '华东服务', detail: '外贸独立站与内容项目' },
+  { city: '深圳', role: '华南服务', detail: '品牌出海与社媒运营' },
+  { city: '宁波', role: '制造业服务', detail: '工业品网站与搜索增长' },
+];
+---
+
+<section id="contact" class="sec bg-white">
+  <div class="container-shell">
+    <div class="text-center">
+      <p class="eyebrow">Contact us</p>
+      <h2 class="mt-3">联系我们</h2>
+      <p class="mx-auto mt-5 max-w-[680px] text-muted">业务咨询、方案定制或演示反馈，欢迎通过下方占位方式联系。</p>
+    </div>
+    <div class="mt-12 grid gap-6 lg:grid-cols-[.85fr_1.15fr]">
+      <article class="rounded-[20px] border border-hairline bg-cloud p-7 md:p-9">
+        <p class="text-xs font-bold uppercase tracking-[.14em] text-brand">远航数字 · 演示品牌</p>
+        <h3 class="mt-3 text-2xl">把出海网站做成可持续增长的基础设施</h3>
+        <p class="mt-4 text-sm text-muted">以下均为演示占位信息，不对应真实企业或个人。</p>
+        <dl class="mt-8 space-y-5 text-sm">
+          <div><dt class="text-muted">服务热线</dt><dd class="mt-1 font-semibold text-primary">+86 000 0000 0000</dd></div>
+          <div><dt class="text-muted">商务邮箱</dt><dd class="mt-1 font-semibold text-primary">demo@example.com</dd></div>
+          <div><dt class="text-muted">响应时间</dt><dd class="mt-1 font-semibold text-primary">工作日 09:00–18:00</dd></div>
+        </dl>
+        <div class="mt-9 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+          {offices.map((office) => (
+            <div class="rounded-[12px] border border-hairline bg-white p-4">
+              <p class="font-bold text-primary">{office.city}</p>
+              <p class="mt-1 text-xs text-brand">{office.role}</p>
+              <p class="mt-2 text-xs leading-relaxed text-muted">{office.detail}</p>
+            </div>
+          ))}
+        </div>
+      </article>
+      <form class="rounded-[20px] border border-hairline bg-white p-7 shadow-[0_18px_50px_rgba(9,36,72,.07)] md:p-9" action="mailto:demo@example.com" method="post" enctype="text/plain">
+        <h3 class="text-2xl">给我们留言</h3>
+        <p class="mt-2 text-sm text-muted">这是静态演示表单，提交将调用本机邮件客户端。</p>
+        <div class="mt-7 grid gap-4 sm:grid-cols-2">
+          <label class="text-sm font-semibold text-primary">姓名<input name="name" required class="mt-2 w-full rounded-[10px] border border-hairline bg-cloud px-4 py-3 font-normal outline-none focus:border-brand" /></label>
+          <label class="text-sm font-semibold text-primary">电子邮件<input name="email" type="email" required class="mt-2 w-full rounded-[10px] border border-hairline bg-cloud px-4 py-3 font-normal outline-none focus:border-brand" /></label>
+          <label class="text-sm font-semibold text-primary">电话<input name="phone" class="mt-2 w-full rounded-[10px] border border-hairline bg-cloud px-4 py-3 font-normal outline-none focus:border-brand" /></label>
+          <label class="text-sm font-semibold text-primary">公司<input name="company" class="mt-2 w-full rounded-[10px] border border-hairline bg-cloud px-4 py-3 font-normal outline-none focus:border-brand" /></label>
+          <label class="text-sm font-semibold text-primary sm:col-span-2">咨询内容<textarea name="message" required rows="5" class="mt-2 w-full resize-y rounded-[10px] border border-hairline bg-cloud px-4 py-3 font-normal outline-none focus:border-brand"></textarea></label>
+        </div>
+        <button class="btn-primary mt-5 w-full" type="submit">发信息</button>
+      </form>
+    </div>
+  </div>
+</section>

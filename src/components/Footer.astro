@@ -1,6 +1,15 @@
 ---
 import Logo from './Logo.astro';
 
+const offices = [
+  ['上海服务中心', '华东地区 · 演示地址', '+86 000 0000 0000'],
+  ['深圳服务中心', '华南地区 · 演示地址', '+86 000 0000 0000'],
+  ['宁波服务中心', '制造业出海 · 演示地址', '+86 000 0000 0000'],
+  ['杭州服务中心', '跨境品牌 · 演示地址', '+86 000 0000 0000'],
+  ['青岛服务中心', '北方外贸 · 演示地址', '+86 000 0000 0000'],
+  ['成都服务中心', '西部市场 · 演示地址', '+86 000 0000 0000'],
+];
+
 const navItems = [
   { href: '/website', label: '网站建设' },
   { href: '/marketing', label: '全网营销' },
@@ -10,54 +19,30 @@ const navItems = [
 ];
 ---
 
-<footer class="bg-primary text-white/70">
-  <div class="mx-auto grid max-w-[1200px] gap-8 px-4 py-12 md:grid-cols-3 md:px-6 md:py-16">
+<footer class="bg-[#252b34] text-white/68">
+  <section class="border-b border-white/10 py-14">
+    <div class="container-shell">
+      <div class="flex items-end justify-between gap-6">
+        <div><p class="text-[10px] font-bold uppercase tracking-[.22em] text-white/45">Our offices</p><h2 class="mt-2 text-2xl text-white">全国服务网点</h2></div>
+        <p class="hidden text-xs text-white/45 md:block">演示地址 · 非真实网点</p>
+      </div>
+      <ul class="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+        {offices.map((office, i) => (
+          <li class={`rounded-[14px] border bg-white/[.035] p-5 ${i === 0 ? 'border-brand/50' : 'border-white/8'}`}>
+            <div class="flex items-center justify-between gap-4"><h3 class="text-base text-white">{office[0]}</h3><span class="rounded-full bg-white/8 px-2.5 py-1 text-[10px] text-white/50">{i === 0 ? '总部' : '分公司'}</span></div>
+            <p class="mt-4 text-xs leading-6 text-white/48">{office[1]}<br />{office[2]}<br />demo@example.com</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <div class="container-shell grid gap-10 py-12 md:grid-cols-[1.25fr_.75fr_1fr]">
     <div>
-      <p class="flex items-center gap-2">
-        <Logo size={28} color="#FFFFFF" />
-        <span class="text-xl font-bold tracking-[-0.02em] text-white">远航</span>
-      </p>
-      <p class="mt-4 text-sm">
-        面向外贸与品牌出海场景，提供独立站建设、全网营销、Google SEO 与 GEO 优化服务。（演示品牌）
-      </p>
+      <p class="flex items-center gap-3"><Logo size={34} color="#FFFFFF" /><span><strong class="block text-xl text-white">远航</strong><span class="block text-[9px] font-bold uppercase tracking-[.18em] text-white/45">Voyage Digital</span></span></p>
+      <p class="mt-5 max-w-[410px] text-sm">面向外贸与品牌出海场景，提供独立站建设、全网营销、Google SEO 与 GEO 优化服务。</p>
     </div>
-
-    <nav aria-label="页脚导航">
-      <p class="font-semibold text-white">页面导航</p>
-      <ul class="mt-4 space-y-2 text-sm">
-        {
-          navItems.map((item) => (
-            <li>
-              <a href={item.href} class="hover:text-white">
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-
-    <div class="text-sm">
-      <p class="font-semibold text-white">联系方式（演示占位）</p>
-      <ul class="mt-4 space-y-2">
-        <li>
-          邮箱：<a href="mailto:demo@example.com" class="underline hover:text-white">
-            demo@example.com
-          </a>
-        </li>
-        <li>
-          电话：<a href="tel:+8600000000000" class="underline hover:text-white">
-            +86 000 0000 0000
-          </a>
-        </li>
-        <li>本站为演示站，以上联系方式为占位内容。</li>
-      </ul>
-    </div>
+    <nav aria-label="页脚导航"><p class="font-bold text-white">服务导航</p><ul class="mt-4 grid grid-cols-2 gap-x-5 gap-y-2 text-sm md:grid-cols-1">{navItems.map((item) => <li><a href={item.href} class="hover:text-white">{item.label}</a></li>)}</ul></nav>
+    <div class="text-sm"><p class="font-bold text-white">联系信息</p><p class="mt-4">+86 000 0000 0000<br /><a href="mailto:demo@example.com" class="hover:text-white">demo@example.com</a></p><p class="mt-4 text-xs text-white/42">品牌、案例、地址与联系方式均为演示占位，不构成真实商业承诺。</p></div>
   </div>
-
-  <div class="border-t border-white/15">
-    <p class="mx-auto max-w-[1200px] px-4 py-6 text-sm md:px-6">
-      本站为演示用途，内容与案例数据均为示例，不代表真实商业承诺。
-    </p>
-  </div>
+  <div class="border-t border-white/10"><p class="container-shell py-5 text-xs text-white/42">© 2026 远航数字 · 外贸站 Demo</p></div>
 </footer>

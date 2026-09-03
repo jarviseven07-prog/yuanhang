@@ -6,7 +6,7 @@ interface Props {
   intro?: string;
   outro?: string;
   alt?: boolean;
-  tone?: 'white' | 'tint' | 'mint';
+  tone?: 'white' | 'tint' | 'cloud' | 'mint' | 'navy';
   centered?: boolean;
 }
 
@@ -15,13 +15,13 @@ const resolvedTone = tone ?? (alt ? 'tint' : 'white');
 ---
 
 <section id={id} data-tone={resolvedTone} class="sec">
-  <div class="mx-auto max-w-[1200px] px-4 md:px-6">
+  <div class="container-shell">
     <div class={centered ? 'text-center' : undefined}>
-      {eyebrow && <p class="text-[13px] font-semibold uppercase tracking-[.12em] text-brand">{eyebrow}</p>}
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
       {title && <h2 class={eyebrow ? 'mt-3' : undefined}>{title}</h2>}
-      {intro && <p class={`mt-4 max-w-[720px] text-muted ${centered ? 'mx-auto' : ''}`}>{intro}</p>}
+      {intro && <p class={`mt-5 max-w-[760px] text-muted ${centered ? 'mx-auto' : ''}`}>{intro}</p>}
     </div>
-    <div class="mt-12">
+    <div class="mt-10 md:mt-14">
       <slot />
     </div>
     {outro && <p class="mt-12 max-w-[720px] text-muted">{outro}</p>}

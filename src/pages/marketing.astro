@@ -1,134 +1,86 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
 import Section from '../components/Section.astro';
-import FeatureGrid from '../components/FeatureGrid.astro';
 import SpecTable from '../components/SpecTable.astro';
 import CTABand from '../components/CTABand.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+import Icon from '../components/Icon.astro';
 
 const entry = await getEntry('pages', 'marketing');
-if (!entry || entry.data.page !== 'marketing') {
-  throw new Error('缺少 marketing 页面内容');
-}
+if (!entry || entry.data.page !== 'marketing') throw new Error('缺少 marketing 页面内容');
 const data = entry.data;
 const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities, cta } = data;
-
-const eightElementsIcons = [
-  'structure',
-  'support',
-  'search',
-  'data',
-  'content',
-  'social',
-  'delivery',
-  'monitor',
-];
+const prices = ['6.98', '9.98', '13.98', '19.8'];
+const tableIcons = ['data', 'social', 'flow'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
-  <Hero
-    crumb="全网营销"
-    h1={hero.h1}
-    tagline={hero.tagline}
-    primary={{ label: '获取推广方案', href: 'mailto:demo@example.com' }}
-    secondary={{ label: '看案例', href: '/cases' }}
-  />
-
-  <div class="relative z-10 mx-auto -mt-[72px] max-w-[1200px] px-4 md:px-6">
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {
-        plans.items.map((plan) => (
-          <article class="card-hover rounded-[18px] border border-hairline bg-white p-7 shadow-[0_12px_32px_rgba(15,35,60,0.10)]">
-            {plan.tag && (
-              <p class="mb-4 inline-block rounded-full border border-accent px-3 py-1 text-xs font-semibold text-accent">
-                {plan.tag}
-              </p>
-            )}
-            <h3>{plan.name}</h3>
-            <p class="mt-4 text-[52px] font-bold leading-none tabular-nums text-brand">
-              {plan.countries.replace(' 个国家', '')}
-            </p>
-            <p class="mt-2 text-sm text-muted">覆盖国家 · 服务周期 {plan.period}</p>
-          </article>
-        ))
-      }
+  <section class="hero-gradient relative min-h-[410px] overflow-hidden pb-24 text-white md:pb-32">
+    <div class="hero-grid"></div><div class="hero-glow"></div>
+    <div class="container-shell relative pt-8 md:pt-11">
+      <nav aria-label="面包屑" class="text-xs text-white/60"><a href="/website" class="hover:text-white">首页</a><span class="mx-2">/</span>全网营销</nav>
+      <div class="mx-auto mt-12 max-w-[820px] text-center">
+        <p class="text-xs font-bold uppercase tracking-[.18em] text-white/60">Social growth suite</p>
+        <h1 class="mt-4 text-white">{hero.h1}<br /><span class="text-[#86dbea]">保障交付，聚焦有效询盘</span></h1>
+        <p class="mx-auto mt-6 max-w-[680px] text-sm leading-7 text-white/72 md:text-base">{hero.tagline}</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <Section title={plans.heading} intro={plans.intro} alt></Section>
-
-  <Section title={delivery.heading} intro={delivery.intro}>
-    <div class="space-y-10">
-      {
-        delivery.tables.map((table) => (
-          <div>
-            {table.heading && <h3>{table.heading}</h3>}
-            {table.intro && <p class="mt-2 max-w-[720px] text-sm text-muted">{table.intro}</p>}
-            <div class="mt-4">
-              <SpecTable
-                columns={table.columns}
-                rows={table.rows}
-                wide={table.wide}
-                note={table.note}
-                checkCells
-              />
-            </div>
-          </div>
-        ))
-      }
+  <section class="relative z-10 -mt-20 pb-16 md:-mt-24 md:pb-24">
+    <div class="container-shell grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {plans.items.map((plan, i) => (
+        <article class={`card-lift relative rounded-[17px] border bg-white p-6 shadow-[0_18px_44px_rgba(9,36,72,.12)] ${i === 0 ? 'border-brand' : 'border-hairline'}`}>
+          {plan.tag && <span class="absolute -top-3 left-5 rounded-full bg-brand px-3 py-1 text-[10px] font-bold text-white">推荐方案</span>}
+          <p class="text-sm font-bold text-primary">{plan.name}</p>
+          <p class="mt-5 flex items-end gap-1 text-brand"><span class="pb-1 text-sm font-bold">¥</span><strong class="text-[44px] leading-none tracking-[-.05em]">{prices[i]}</strong><span class="pb-1 text-sm font-bold">万</span></p>
+          <p class="mt-3 text-xs text-muted">{plan.countries} · {plan.period}</p>
+        </article>
+      ))}
     </div>
-  </Section>
+    <p class="container-shell mt-5 text-center text-xs text-muted">以上价格与档位为参考站版式演示数据，实际合作以正式合同为准。</p>
+  </section>
 
-  <Section title={inquiryStandard.heading} intro={inquiryStandard.intro} alt>
-    <div class="grid gap-4 md:grid-cols-2 md:gap-6">
-      {
-        inquiryStandard.regions.map((region) => (
-          <article class="rounded-[18px] border border-hairline bg-white p-7">
-            <h3>
-              {region.name}
-              <span class="ml-2 text-sm font-normal tabular-nums text-muted">
-                {region.countries.length} 个国家 / 地区
-              </span>
-            </h3>
-            <p class="mt-4 flex flex-wrap gap-2 text-sm">
-              {region.countries.map((country) => (
-                <span class="rounded-full bg-tint px-3 py-1 text-primary">{country}</span>
-              ))}
-            </p>
-          </article>
-        ))
-      }
-    </div>
-    <p class="mt-6 text-sm text-muted">{inquiryStandard.note}</p>
-  </Section>
-
-  <Section title={eightElements.heading} intro={eightElements.intro}>
-    <FeatureGrid items={eightElements.items} columns={4} numbered icons={eightElementsIcons} />
-    {
-      eightElements.note && (
-        <p class="mt-6 max-w-[720px] text-sm text-muted">{eightElements.note}</p>
-      )
-    }
-    {
-      eightElements.notes && (
-        <ul class="mt-6 max-w-[720px] space-y-2">
-          {eightElements.notes.map((note) => (
-            <li class="text-sm text-muted">{note}</li>
+  <section class="bg-cloud pb-20 md:pb-28">
+    <div class="container-shell grid gap-8 lg:grid-cols-[minmax(0,1fr)_220px]">
+      <div class="min-w-0">
+        <div class="mb-8"><p class="eyebrow">Delivery matrix</p><h2 class="mt-3">{delivery.heading}</h2><p class="mt-4 max-w-[760px] text-muted">{delivery.intro}</p></div>
+        <div class="space-y-7">
+          {delivery.tables.map((table, i) => (
+            <article id={`delivery-${i + 1}`} class="min-w-0 rounded-[18px] border border-hairline bg-white p-3 shadow-[0_14px_34px_rgba(9,36,72,.055)] md:p-5">
+              <div class="flex items-center gap-4 px-2 py-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-tint text-brand"><Icon name={tableIcons[i] ?? 'structure'} size={22} /></span><div>{table.heading && <h3>{table.heading}</h3>}{table.intro && <p class="mt-1 text-xs text-muted">{table.intro}</p>}</div></div>
+              <div class="mt-2"><SpecTable columns={table.columns} rows={table.rows} wide={table.wide} note={table.note} checkCells /></div>
+            </article>
           ))}
-        </ul>
-      )
-    }
+        </div>
+      </div>
+      <aside class="hidden lg:block"><nav aria-label="本页目录" class="sticky top-24 rounded-[16px] border border-hairline bg-white p-5 shadow-[0_12px_28px_rgba(9,36,72,.055)]"><p class="text-xs font-bold uppercase tracking-[.12em] text-muted">目录导航</p><ul class="mt-4 space-y-1 text-sm">{delivery.tables.map((table, i) => <li><a class="block rounded-[8px] px-3 py-2 text-primary hover:bg-tint hover:text-brand" href={`#delivery-${i + 1}`}>{table.heading}</a></li>)}<li><a class="block rounded-[8px] px-3 py-2 text-primary hover:bg-tint hover:text-brand" href="#inquiry-standard">询盘标准</a></li></ul></nav></aside>
+    </div>
+  </section>
+
+  <Section id="inquiry-standard" eyebrow="Lead standard" title={inquiryStandard.heading} intro={inquiryStandard.intro} centered>
+    <div class="grid gap-4 md:grid-cols-2">
+      {inquiryStandard.regions.map((region, i) => <article class="rounded-[16px] border border-hairline bg-white p-6"><div class="flex items-center justify-between gap-4"><h3>{region.name}</h3><span class="font-mono text-xs font-bold text-brand">0{i + 1}</span></div><p class="mt-5 flex flex-wrap gap-2">{region.countries.map((country) => <span class="rounded-full bg-tint px-3 py-1 text-xs text-primary">{country}</span>)}</p></article>)}
+    </div>
+    <p class="mt-5 text-xs text-muted">{inquiryStandard.note}</p>
   </Section>
 
-  <Section title={responsibilities.heading} intro={responsibilities.intro} alt>
-    <SpecTable
-      columns={responsibilities.columns}
-      rows={responsibilities.rows}
-      note={responsibilities.note}
-      rowHeaders={false}
-    />
+  <Section eyebrow="Qualified inquiry" title={eightElements.heading} intro={eightElements.intro} tone="tint" centered>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {eightElements.items.map((item, i) => <li class="card-lift rounded-[15px] border border-hairline bg-white p-5"><span class="flex h-9 w-9 items-center justify-center rounded-[9px] bg-brand text-xs font-bold text-white">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-base">{item.name}</h3><p class="mt-2 text-xs leading-6 text-muted">{item.desc}</p></li>)}
+    </ul>
+    {eightElements.note && <p class="mx-auto mt-7 max-w-[840px] font-semibold text-brand">{eightElements.note}</p>}
+    {eightElements.notes && <div class="mx-auto mt-6 max-w-[900px] rounded-[14px] border border-hairline bg-white p-5 text-left">{eightElements.notes.map((note) => <p class="py-1 text-xs leading-6 text-muted">{note}</p>)}</div>}
   </Section>
 
-  <CTABand title={cta.title} desc={cta.desc} buttonLabel={cta.buttonLabel} href={cta.href} />
+  <Section eyebrow="Responsibilities" title={responsibilities.heading} intro={responsibilities.intro} centered>
+    <div class="grid gap-5 lg:grid-cols-2">
+      {responsibilities.columns.map((column, ci) => <article class={`overflow-hidden rounded-[18px] border ${ci === 0 ? 'border-brand/35' : 'border-[#d6b356]/40'}`}><h3 class={`px-6 py-5 ${ci === 0 ? 'bg-tint text-brand' : 'bg-[#fff9e8] text-[#7a611e]'}`}>{column}</h3><ol class="divide-y divide-hairline px-6">{responsibilities.rows.map((row, i) => <li class="flex gap-4 py-4 text-sm text-muted"><span class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${ci === 0 ? 'bg-tint text-brand' : 'bg-[#fff6d8] text-[#8a6c16]'}`}>{i + 1}</span><span>{row[ci]}</span></li>)}</ol></article>)}
+    </div>
+    {responsibilities.note && <p class="mt-5 text-xs text-muted">{responsibilities.note}</p>}
+  </Section>
+
+  <CTABand title={cta.title} desc={cta.desc} buttonLabel="查看方案详情" href="#contact" />
+  <ContactPanel />
 </BaseLayout>

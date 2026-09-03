@@ -21,23 +21,24 @@ const isActive = (href: string) => {
 };
 
 const linkClass = (href: string) =>
-  `block rounded-[10px] px-4 py-2 text-sm font-medium ${
-    isActive(href)
-      ? 'bg-tint text-brand'
-      : 'text-ink hover:bg-tint hover:text-brand'
+  `relative block px-3 py-2 text-sm font-semibold ${
+    isActive(href) ? 'text-brand' : 'text-primary hover:text-brand'
   }`;
 ---
 
-<header id="site-header" class="sticky top-0 z-40 border-b border-hairline bg-white">
-  <div class="mx-auto max-w-[1200px] px-4 md:px-6">
-    <div class="flex items-center justify-between py-2 md:py-0">
-      <a href="/website" class="flex items-center gap-2 py-2 md:py-4">
-        <Logo size={28} color="#0B2342" />
-        <span class="text-xl font-bold tracking-[-0.02em] text-primary">远航</span>
+<header id="site-header" class="sticky top-0 z-40 border-b border-hairline/80 bg-white/95 backdrop-blur-xl">
+  <div class="container-shell">
+    <div class="flex min-h-[72px] items-center justify-between">
+      <a href="/website" class="flex items-center gap-2.5 py-2" aria-label="远航首页">
+        <Logo size={31} color="#0B2342" />
+        <span class="leading-none">
+          <strong class="block text-xl tracking-[-0.04em] text-primary">远航</strong>
+          <span class="mt-1 block text-[9px] font-bold uppercase tracking-[.18em] text-muted">Voyage Digital</span>
+        </span>
       </a>
 
       <nav aria-label="主导航" class="hidden md:block">
-        <ul class="flex items-center gap-2">
+        <ul class="flex items-center gap-1">
           {
             navItems.map((item) => (
               <li>
@@ -47,6 +48,7 @@ const linkClass = (href: string) =>
                   aria-current={isActive(item.href) ? 'page' : undefined}
                 >
                   {item.label}
+                  {isActive(item.href) && <span class="absolute inset-x-3 -bottom-[17px] h-0.5 rounded-full bg-brand" aria-hidden="true"></span>}
                 </a>
               </li>
             ))
@@ -57,7 +59,7 @@ const linkClass = (href: string) =>
       <button
         id="menu-toggle"
         type="button"
-        class="rounded-[10px] p-2 text-primary hover:bg-tint md:hidden"
+        class="rounded-full border border-hairline p-2 text-primary hover:bg-tint md:hidden"
         aria-expanded="false"
         aria-controls="site-menu"
         aria-label="打开菜单"
