@@ -33,7 +33,8 @@ const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
   <Section eyebrow="Service positioning" title={plans.heading} intro={plans.intro} tone="tint" centered>
     <div class="grid gap-5 lg:grid-cols-2">
       {plans.items.map((plan, i) => (
-        <article class={`relative overflow-hidden rounded-[22px] p-7 text-white shadow-[0_22px_48px_rgba(9,36,72,.14)] md:p-9 ${i === 0 ? 'bg-gradient-to-br from-primary to-[#1555aa]' : 'bg-gradient-to-br from-[#0a3063] to-[#1974d7]'}`}>
+        <article class={`relative overflow-hidden rounded-[22px] p-7 text-white shadow-[0_24px_54px_rgba(9,36,72,.16)] md:p-9 ${i === 0 ? 'bg-[#0b2f5b]' : 'bg-gradient-to-br from-[#114f9a] via-[#1c66c8] to-[#2383e2]'}`}>
+          {i === 1 && <span class="absolute inset-y-0 left-0 w-1 bg-[#71d9e5]"></span>}
           <span class="absolute right-5 top-2 font-serif text-[88px] font-bold leading-none text-white/8">0{i + 1}</span>
           <p class="text-xs font-bold uppercase tracking-[.14em] text-white/58">{plan.eyebrow}</p>
           <h3 class="mt-3 text-3xl text-white">{plan.name}</h3>
@@ -70,26 +71,32 @@ const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
     <p class="mt-6 text-left text-xs leading-6 text-muted">{serviceGroups.note}</p>
   </Section>
 
-  <Section eyebrow="Core modules" title={featureModules.heading} intro={featureModules.intro} centered>
-    <div class="grid gap-5 md:grid-cols-2">
+  <Section eyebrow="Core modules" title={featureModules.heading} intro={featureModules.intro} tone="cloud" centered>
+    <div class="space-y-7">
       {moduleGroups.map(([name, rows], i) => (
-        <details class="group rounded-[16px] border border-hairline bg-white open:shadow-[0_16px_36px_rgba(9,36,72,.07)]" open={i < 2}>
-          <summary class="flex list-none items-center justify-between gap-4 p-5"><span class="flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-[9px] bg-tint text-brand"><Icon name={['structure','flow','security','delivery','data','content','globe'][i] ?? 'structure'} size={19} /></span><strong class="text-primary">{name}</strong></span><span class="text-xs text-muted">{rows.length} 项 ＋</span></summary>
-          <ul class="border-t border-hairline px-5 py-4">{rows.map((row) => <li class="flex gap-3 border-b border-hairline/70 py-3 last:border-0"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-success"></span><p class="text-sm"><strong class="text-primary">{row[0]}</strong><span class="mt-1 block text-xs leading-6 text-muted">{row[1]}</span></p></li>)}</ul>
-        </details>
+        <article class="rounded-[18px] border border-hairline bg-white p-3 shadow-[0_16px_36px_rgba(9,36,72,.055)] md:p-5">
+          <div class="flex items-center gap-4 px-2 py-3 md:px-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[11px] bg-tint text-brand"><Icon name={['structure','flow','security','delivery','data','content','globe','support','search','stack'][i] ?? 'structure'} size={22} /></span><div><h3>{name}</h3><p class="mt-1 text-xs text-muted">{rows.length} 项后台与前台能力</p></div></div>
+          <div class="mt-2"><SpecTable columns={['功能项', '功能说明', '技术规格']} rows={rows.map((row) => [row[0], row[1], '✓'])} checkCells leftCols={2} wide /></div>
+        </article>
       ))}
-    </div>
-  </Section>
-
-  <Section eyebrow="Operations" title={ops.heading} tone="tint">
-    <div class="grid items-center gap-10 lg:grid-cols-2">
-      <div><p class="text-muted">{ops.body[0]}</p><div class="mt-8 grid grid-cols-3 gap-3">{['数据可见','动作可追','持续迭代'].map((item, i) => <div class="rounded-[12px] bg-white p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs text-muted">{item}</span></div>)}</div></div>
-      <img src="/img/svc-data.webp" alt="整洁的数据中心设备与蓝色状态灯" width={1792} height={1200} loading="lazy" class="img-tuned aspect-[3/2] w-full rounded-[20px] object-cover shadow-[0_22px_48px_rgba(9,36,72,.12)]" />
     </div>
   </Section>
 
   <Section eyebrow="After sales" title={guarantee.heading} centered>
     <div class="grid gap-5 md:grid-cols-2">{guarantee.items.map((item, i) => <article class="rounded-[18px] border border-hairline p-7"><span class="flex h-11 w-11 items-center justify-center rounded-[10px] bg-brand text-white"><Icon name={i === 0 ? 'support' : 'delivery'} size={22} /></span><h3 class="mt-5">{item.name}</h3><ul class="mt-4 space-y-3">{item.points.map((point) => <li class="flex gap-3 text-sm text-muted"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-success"></span>{point}</li>)}</ul></article>)}</div>
+  </Section>
+
+  <Section eyebrow="Operations" title={ops.heading}>
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div><p class="text-muted">{ops.body[0]}</p><div class="mt-8 grid grid-cols-3 gap-3">{['数据可见','动作可追','持续迭代'].map((item, i) => <div class="rounded-[12px] bg-tint p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs text-muted">{item}</span></div>)}</div></div>
+      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src="/img/mid-office.webp" alt="桌面上的网站运营数据分析工作场景" width={1792} height={1200} loading="lazy" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Growth services" title="一站式外贸营销推广服务" intro="选择适合业务阶段的推广渠道，用清晰的目标和持续复盘推动增长。" tone="tint" centered>
+    <div class="grid gap-5 md:grid-cols-2">
+      {[['Google SEO 优化','通过关键词策略、技术优化与内容建设，提升 Google 自然搜索排名和高意向流量。','/img/svc-data.webp','/seo'],['全域社媒营销','围绕 Facebook、LinkedIn、TikTok 等海外平台建立内容矩阵，持续触达目标买家。','/img/mid-workshop.webp','/marketing']].map((item, i) => <article class="group relative min-h-[310px] overflow-hidden rounded-[20px] bg-primary text-left"><img src={item[2]} alt={`${item[0]}服务场景`} width={1792} height={1200} loading="lazy" class="img-tuned absolute inset-0 h-full w-full object-cover opacity-45 transition duration-500 group-hover:scale-[1.025]" /><div class="photo-overlay absolute inset-0"></div><div class="relative flex min-h-[310px] flex-col justify-end p-7 text-white md:p-9"><p class="text-xs font-bold tracking-[.14em] text-[#8fe0e2]">SERVICE 0{i + 1}</p><h3 class="mt-3 text-2xl text-white">{item[0]}</h3><p class="mt-3 max-w-[520px] text-sm leading-7 text-white/72">{item[1]}</p><a href={item[3]} class="mt-5 inline-flex text-sm font-bold text-white">了解详情 →</a></div></article>)}
+    </div>
   </Section>
 
   <Section eyebrow="Selected work" title="定制化案例" intro="六个虚构行业的 Demo，展示网站与增长服务的组合方式。" tone="cloud" centered>

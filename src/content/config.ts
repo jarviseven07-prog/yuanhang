@@ -103,6 +103,7 @@ export const marketingSchema = z.object({
       z.object({ name: z.string(), desc: z.string().optional(), countries: z.array(z.string()) }),
     ),
     note: z.string().optional(),
+    quotaTable: specTableSchema,
   }),
   eightElements: sectionSchema.extend({
     items: z.array(featureItem),

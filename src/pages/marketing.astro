@@ -12,7 +12,7 @@ if (!entry || entry.data.page !== 'marketing') throw new Error('缺少 marketing
 const data = entry.data;
 const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities, cta } = data;
 const prices = ['6.98', '9.98', '13.98', '19.8'];
-const tableIcons = ['data', 'social', 'flow'];
+const tableIcons = ['data', 'link', 'social', 'flow', 'support'];
 ---
 
 <BaseLayout title={data.title} description={data.description}>
@@ -45,7 +45,7 @@ const tableIcons = ['data', 'social', 'flow'];
   <section class="bg-cloud pb-20 md:pb-28">
     <div class="container-shell grid gap-8 lg:grid-cols-[minmax(0,1fr)_220px]">
       <div class="min-w-0">
-        <div class="mb-8"><p class="eyebrow">Delivery matrix</p><h2 class="mt-3">{delivery.heading}</h2><p class="mt-4 max-w-[760px] text-muted">{delivery.intro}</p></div>
+        <div class="mb-8"><p class="eyebrow">Delivery matrix</p><h2 class="mt-3">{delivery.heading}</h2><p class="mt-4 max-w-[760px] text-muted">{delivery.intro}</p><p class="mt-3 text-xs text-muted">价格、数量与效果指标均为参考版式 Demo 数据，实际交付以正式合同为准。</p></div>
         <div class="space-y-7">
           {delivery.tables.map((table, i) => (
             <article id={`delivery-${i + 1}`} class="min-w-0 rounded-[18px] border border-hairline bg-white p-3 shadow-[0_14px_34px_rgba(9,36,72,.055)] md:p-5">
@@ -64,6 +64,10 @@ const tableIcons = ['data', 'social', 'flow'];
       {inquiryStandard.regions.map((region, i) => <article class="rounded-[16px] border border-hairline bg-white p-6"><div class="flex items-center justify-between gap-4"><h3>{region.name}</h3><span class="font-mono text-xs font-bold text-brand">0{i + 1}</span></div><p class="mt-5 flex flex-wrap gap-2">{region.countries.map((country) => <span class="rounded-full bg-tint px-3 py-1 text-xs text-primary">{country}</span>)}</p></article>)}
     </div>
     <p class="mt-5 text-xs text-muted">{inquiryStandard.note}</p>
+    <article class="mt-10 rounded-[18px] border border-hairline bg-white p-3 text-left shadow-[0_14px_34px_rgba(9,36,72,.055)] md:p-5">
+      <div class="flex items-center gap-4 px-2 py-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-tint text-brand"><Icon name="delivery" size={22} /></span><div><h3>{inquiryStandard.quotaTable.heading}</h3><p class="mt-1 text-xs text-muted">同一区域前三档按半年度口径，旗舰版按年度口径。</p></div></div>
+      <div class="mt-2"><SpecTable columns={inquiryStandard.quotaTable.columns} rows={inquiryStandard.quotaTable.rows} wide checkCells /></div>
+    </article>
   </Section>
 
   <Section eyebrow="Qualified inquiry" title={eightElements.heading} intro={eightElements.intro} tone="tint" centered>
@@ -74,9 +78,16 @@ const tableIcons = ['data', 'social', 'flow'];
     {eightElements.notes && <div class="mx-auto mt-6 max-w-[900px] rounded-[14px] border border-hairline bg-white p-5 text-left">{eightElements.notes.map((note) => <p class="py-1 text-xs leading-6 text-muted">{note}</p>)}</div>}
   </Section>
 
+  <section class="overflow-hidden bg-primary text-white">
+    <div class="container-shell grid items-stretch lg:grid-cols-[.9fr_1.1fr]">
+      <div class="flex flex-col justify-center py-14 pr-0 lg:py-20 lg:pr-14"><p class="text-xs font-bold uppercase tracking-[.16em] text-[#8fe0e2]">Content to inquiry</p><h2 class="mt-4 text-white">从工厂素材到精准询盘闭环</h2><p class="mt-5 text-sm leading-7 text-white/70">围绕真实产线、产品细节与应用场景建立素材库，再通过多平台剪辑、发布、投放和统一客资承接，让内容生产与销售跟进连接起来。</p><div class="mt-7 grid grid-cols-3 gap-3">{[['01','素材采集'],['02','矩阵分发'],['03','线索承接']].map((item) => <div class="border-t border-white/20 pt-3"><strong class="block text-lg text-[#8fe0e2]">{item[0]}</strong><span class="mt-1 block text-xs text-white/58">{item[1]}</span></div>)}</div></div>
+      <div class="relative min-h-[340px] lg:min-h-[460px]"><img src="/img/mid-workshop.webp" alt="整洁工厂中的成批产品与社媒内容素材场景" width={1792} height={1200} loading="lazy" class="img-tuned absolute inset-0 h-full w-full object-cover" /><div class="absolute inset-0 bg-gradient-to-r from-primary via-primary/20 to-transparent lg:block"></div></div>
+    </div>
+  </section>
+
   <Section eyebrow="Responsibilities" title={responsibilities.heading} intro={responsibilities.intro} centered>
     <div class="grid gap-5 lg:grid-cols-2">
-      {responsibilities.columns.map((column, ci) => <article class={`overflow-hidden rounded-[18px] border ${ci === 0 ? 'border-brand/35' : 'border-[#d6b356]/40'}`}><h3 class={`px-6 py-5 ${ci === 0 ? 'bg-tint text-brand' : 'bg-[#fff9e8] text-[#7a611e]'}`}>{column}</h3><ol class="divide-y divide-hairline px-6">{responsibilities.rows.map((row, i) => <li class="flex gap-4 py-4 text-sm text-muted"><span class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${ci === 0 ? 'bg-tint text-brand' : 'bg-[#fff6d8] text-[#8a6c16]'}`}>{i + 1}</span><span>{row[ci]}</span></li>)}</ol></article>)}
+      {responsibilities.columns.map((column, ci) => <article class={`overflow-hidden rounded-[18px] border ${ci === 0 ? 'border-brand/35' : 'border-[#8fc9df]/55'}`}><h3 class={`px-6 py-5 ${ci === 0 ? 'bg-tint text-brand' : 'bg-mint text-[#126a85]'}`}>{column}</h3><ol class="divide-y divide-hairline px-6">{responsibilities.rows.map((row, i) => <li class="flex gap-4 py-4 text-sm text-muted"><span class={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${ci === 0 ? 'bg-tint text-brand' : 'bg-mint text-[#126a85]'}`}>{i + 1}</span><span>{row[ci]}</span></li>)}</ol></article>)}
     </div>
     {responsibilities.note && <p class="mt-5 text-xs text-muted">{responsibilities.note}</p>}
   </Section>
