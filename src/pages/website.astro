@@ -89,7 +89,7 @@ const moduleGroups = Object.entries(featureModules.rows.reduce((acc, row) => {
   <Section eyebrow="Operations" title={ops.heading}>
     <div class="grid items-center gap-10 lg:grid-cols-2">
       <div><p class="text-muted">{ops.body[0]}</p><div class="mt-8 grid grid-cols-3 gap-3">{['数据可见','动作可追','持续迭代'].map((item, i) => <div class="rounded-[12px] bg-tint p-4 text-center"><strong class="block text-2xl text-brand">0{i + 1}</strong><span class="mt-1 block text-xs text-muted">{item}</span></div>)}</div></div>
-      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src="/img/mid-office.webp" alt="桌面上的网站运营数据分析工作场景" width={1792} height={1200} loading="lazy" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
+      <div class="relative mx-auto aspect-square w-full max-w-[470px] overflow-hidden rounded-[42%_58%_48%_52%/48%_42%_58%_52%] bg-mint p-5"><img src="/img/mid-office.webp" alt="桌面上的网站运营数据分析工作场景" width={1792} height={1200} loading="eager" class="img-tuned h-full w-full rounded-[38%_62%_45%_55%/52%_42%_58%_48%] object-cover" /></div>
     </div>
   </Section>
 
