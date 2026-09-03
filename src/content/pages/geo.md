@@ -1,7 +1,7 @@
 ---
 page: "geo"
-title: "GEO 优化 - 远航"
-description: "远航 GEO 优化：覆盖境内外 13 个主流 AI 入口，提供词条规划、可引用内容、FAQ 知识库、抓取诊断等九项服务。本页为演示示例。"
+title: "GEO 优化 - 远航跨境"
+description: "远航跨境 GEO 优化：覆盖境内外 13 个主流 AI 入口，提供词条规划、可引用内容、FAQ 知识库、抓取诊断等九项服务。本页为演示示例。"
 
 hero:
   eyebrow: "GEO · GENERATIVE ENGINE OPTIMIZATION"

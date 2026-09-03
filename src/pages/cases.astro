@@ -6,8 +6,8 @@ import Icon from '../components/Icon.astro';
 
 const cases = (await getCollection('cases')).sort((a, b) => a.id.localeCompare(b.id));
 const industryIcon: Record<string, string> = { 工业阀门: 'valve', 户外家具: 'furniture', 汽车配件: 'gear', 建材: 'stack', 医疗器械: 'pulse', 消费电子: 'chip' };
-const title = '成功案例 - 远航';
-const description = '远航成功案例页：六个虚构行业的演示案例，展示网站建设、全网营销、Google SEO 与 GEO 优化的组合方向。';
+const title = '成功案例 - 远航跨境';
+const description = '远航跨境成功案例页：六个虚构行业的演示案例，展示网站建设、全网营销、Google SEO 与 GEO 优化的组合方向。';
 ---
 
 <BaseLayout title={title} description={description}>
@@ -17,7 +17,7 @@ const description = '远航成功案例页：六个虚构行业的演示案例�
     <div class="container-shell">
       <p class="eyebrow">Selected work</p>
       <h2 class="mt-3">标杆案例</h2>
-      <p class="mt-4 max-w-[720px] text-muted">远航为六个虚构行业品牌设计的独立站与数字增长 Demo。点击卡片可查看服务组合方向，页面中的品牌与成效均为演示数据。</p>
+      <p class="mt-4 max-w-[720px] text-muted">远航跨境为六个虚构行业品牌设计的独立站与数字增长 Demo。点击卡片可查看服务组合方向，页面中的品牌与成效均为演示数据。</p>
       <div class="mt-7 inline-flex rounded-full border border-hairline bg-white p-1 text-sm"><span class="rounded-full bg-brand px-5 py-2 font-bold text-white">标杆案例</span><span class="px-5 py-2 text-muted">常规定制</span></div>
 
       <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

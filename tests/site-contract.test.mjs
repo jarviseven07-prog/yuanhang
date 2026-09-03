@@ -80,8 +80,8 @@ test("marketing restores the full reference delivery matrix", () => {
     "效果保证 KPI",
     "账号搭建与国家矩阵",
     "社媒运营交付",
-    "远航社媒营销系统",
-    "远航客资管理系统",
+    "远航跨境社媒营销系统",
+    "远航跨境客资管理系统",
     "8 要素询盘交付（每个国家）",
   ]) {
     expect(marketingContent).toContain(heading);

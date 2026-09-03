@@ -1,7 +1,7 @@
 ---
 page: "seo"
-title: "Google SEO 优化 - 远航"
-description: "远航 Google SEO 优化：技术 SEO、内容策略、权重提升与数据驱动四模块，配合六步优化流程，并说明报数口径。本页为演示示例。"
+title: "Google SEO 优化 - 远航跨境"
+description: "远航跨境 Google SEO 优化：技术 SEO、内容策略、权重提升与数据驱动四模块，配合六步优化流程，并说明报数口径。本页为演示示例。"
 
 hero:
   eyebrow: "GOOGLE SEO"
