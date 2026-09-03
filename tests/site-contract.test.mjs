@@ -108,9 +108,18 @@ test("marketing keeps the complete nine-part directory and lower-page anchors", 
 });
 
 test("SEO renders its previously hidden context and reporting sections", () => {
-  expect(seoPage).toContain("title={sellingPoints.heading}");
+  expect(seoPage).toContain("sellingPoints.items.map");
+  expect(seoPage).not.toContain('/img/svc-data.webp');
   expect(seoPage).toContain("title={reporting.heading}");
   expect(seoPage).toContain("reporting.items.map");
+});
+
+test("qualified inquiry cards expose eight visible pictograms", () => {
+  expect(marketingPage).toContain("inquiryIcons");
+  expect(marketingPage).toContain("<Icon name={inquiryIcons[i]}");
+  for (const icon of ["building", "person", "target", "wallet", "handshake", "message", "mail", "brand"]) {
+    expect(marketingPage).toContain(`'${icon}'`);
+  }
 });
 
 test("GEO platform and service cards include visible icons", () => {

@@ -12,6 +12,7 @@ const data = entry.data;
 const { hero, plans, delivery, inquiryStandard, eightElements, responsibilities, cta } = data;
 const prices = ['6.98', '9.98', '13.98', '19.8'];
 const tableIcons = ['data', 'link', 'social', 'flow', 'support'];
+const inquiryIcons = ['building', 'person', 'target', 'wallet', 'handshake', 'message', 'mail', 'brand'];
 const marketingNav = [
   ['delivery-1', '效果 KPI'],
   ['delivery-2', '账号矩阵'],
@@ -77,13 +78,13 @@ const marketingNav = [
           </article>
         </section>
 
-        <section id="eight-elements" class="scroll-mt-24">
-          <div class="text-center"><p class="eyebrow">Qualified inquiry</p><h2 class="mt-3">{eightElements.heading}</h2><p class="mx-auto mt-4 max-w-[800px] text-muted">{eightElements.intro}</p></div>
-          <ul class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {eightElements.items.map((item, i) => <li class="card-lift rounded-[15px] border border-hairline bg-white p-5"><span class="flex h-9 w-9 items-center justify-center rounded-[9px] bg-brand text-xs font-bold text-white">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-base">{item.name}</h3><p class="mt-2 text-xs leading-6 text-muted">{item.desc}</p></li>)}
+        <section id="eight-elements" class="scroll-mt-24 overflow-hidden rounded-[20px] border border-hairline bg-white shadow-[0_14px_34px_rgba(9,36,72,.055)]">
+          <div class="flex items-start gap-4 border-b border-hairline px-6 py-6 md:px-8"><span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-[12px] bg-mint text-[#18a978]"><Icon name="check" size={27} /></span><div><p class="eyebrow">Qualified inquiry</p><h2 class="mt-2">{eightElements.heading}</h2><p class="mt-2 max-w-[800px] text-sm leading-7 text-muted">{eightElements.intro}</p></div></div>
+          <ul class="grid gap-4 p-6 sm:grid-cols-2 md:p-8 xl:grid-cols-4">
+            {eightElements.items.map((item, i) => <li class="card-lift relative rounded-[15px] border border-hairline bg-[#f8fbff] p-5"><span class="flex h-12 w-12 items-center justify-center rounded-[12px] bg-tint text-brand"><Icon name={inquiryIcons[i]} size={25} /></span><span class="absolute right-5 top-5 font-mono text-[10px] font-bold tracking-[.12em] text-brand/45">{String(i + 1).padStart(2, '0')}</span><h3 class="mt-5 text-base">{item.name}</h3><p class="mt-2 text-xs leading-6 text-muted">{item.desc}</p></li>)}
           </ul>
-          {eightElements.note && <p class="mx-auto mt-7 max-w-[840px] text-center font-semibold text-brand">{eightElements.note}</p>}
-          {eightElements.notes && <div class="mx-auto mt-6 max-w-[900px] rounded-[14px] border border-hairline bg-white p-5 text-left">{eightElements.notes.map((note) => <p class="py-1 text-xs leading-6 text-muted">{note}</p>)}</div>}
+          {eightElements.note && <p class="mx-auto max-w-[840px] px-6 pb-6 text-center font-semibold text-brand">{eightElements.note}</p>}
+          {eightElements.notes && <div class="mx-6 mb-6 rounded-[14px] border border-hairline bg-cloud p-5 text-left md:mx-8 md:mb-8">{eightElements.notes.map((note) => <p class="py-1 text-xs leading-6 text-muted">{note}</p>)}</div>}
         </section>
 
         <section class="grid overflow-hidden rounded-[20px] bg-primary text-white lg:grid-cols-[.9fr_1.1fr]">
